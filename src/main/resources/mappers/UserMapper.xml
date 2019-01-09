@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.market.mapper.UserMapper">
+
+
+    <select id="findByUserName" resultType="user">
+        select * from user where username = #{username} limit 1
+    </select>
+    
+    <select id="findByUserId" resultType="authority">
+        SELECT
+            a.*
+        FROM
+            authority a
+        LEFT JOIN user_authority ua ON a.id = ua.authority_id
+        WHERE
+            ua.user_id = #{userId}
+    </select>
+
+    <insert id="saveT" parameterType="user" useGeneratedKeys="true" keyProperty="id">
+       INSERT INTO `user` (
+        `avatar`,
+        `email`,
+        `name`,
+        `mobile`,
+        `password`,
+        `username`
+    )
+    VALUES
+    (
+        '',
+        '',
+        '',
+        '',
+        #{password},
+        #{username}
+    );
+    </insert>
+
+
+
+</mapper>
