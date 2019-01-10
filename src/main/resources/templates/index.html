@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
+<head th:replace="~{fragments/header :: header}">
+</head>
+<body>
+<!-- Page Content -->
+<div class="park-content-container">
+
+    <div class="row">
+
+        <div th:replace="~{fragments/left :: left}"></div>
+   
+
+        <!-- 右侧栏目 -->
+
+        <div class="col-md-10 col-xl-10">
+            <div class="card" id="rightContainer">
+            </div>
+        </div>
+    </div>
+    <!-- /.row -->
+
+</div>
+<!-- /.container -->
+
+
+
+<div th:replace="~{fragments/footer :: footer}">...</div>
+
+<!-- JavaScript -->
+<script th:src="@{/js/main.js}"></script>
+
+</body>
+</html>

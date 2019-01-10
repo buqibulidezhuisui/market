@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/header :: header}"></head>
+<style>
+    body {
+        background-color: #f1f1f1;
+    }
+</style>
+<body>
+
+<div class="container">
+    <form th:action="@{/login}" method="post" id="login-form">
+        <div class="panel-lite">
+            <h4>掌源智能营销系统</h4>
+            <div class="thumbur">
+                <div class="icon-lock"></div>
+            </div>
+            <div class="form-group">
+                <input required="required" class="form-control input-lg" name="username" placeholder="用户名"/>
+            </div>
+            <div class="form-group">
+                <input type="password" required="required" class="form-control input-lg" name="password" placeholder="密　码"/>
+            </div>
+            <div class="checkbox">
+                <label>
+                    <input type="checkbox" name="remember-me" checked> 记住我
+                </label>
+            </div>
+            <button class="btn btn-primary button-login" id="button-login" type="submit" >登录</button>
+        </div>
+
+    </form>
+</div>
+<script src="../../js/jquery-3.1.1.min.js" th:src="@{/js/jquery-3.1.1.min.js}"></script>
+<script src="../../plugins/bootstrap3/js/bootstrap.js" th:src="@{/plugins/bootstrap3/js/bootstrap.js}"></script>
+<script src="../../js/toastr.min.js" th:src="@{/js/toastr.min.js}"></script>
+<script th:inline="javascript">
+    var  ifError =  [[${param.error}]];
+    var  errorMsg = [[${session?.SPRING_SECURITY_LAST_EXCEPTION?.message}]];
+    if(ifError&&errorMsg){
+        toastr.error(errorMsg);
+    }
+</script>
+</body>
+
+</html>

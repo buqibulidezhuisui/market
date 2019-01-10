@@ -27,10 +27,11 @@ public class MyUserDetailsService implements UserDetailsService {
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         User user = userMapper.findByUserName(username);
         if (user == null) {
-            throw new DataAccessException("用户名不存在");
+            throw new UsernameNotFoundException("用户名"+username+"不存在");
         }
-        log.info("登录用户名:" + user.getUsername());
+        log.info("登录用户名:"+user.getUsername());
         List<Authority> authorities = userMapper.findByUserId(user.getId());
-        return new org.springframework.security.core.userdetails.User(user.getUsername(), user.getPassword(), authorities);
+        user.setAuthorities(authorities);
+        return user;
     }
 }

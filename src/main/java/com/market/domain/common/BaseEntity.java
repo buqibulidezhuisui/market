@@ -27,6 +27,7 @@ package com.market.domain.common;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.beans.Transient;
 import java.io.Serializable;
 import java.util.Date;
 
@@ -45,6 +46,11 @@ public class BaseEntity implements Serializable {
 
     private Date createAt = new Date();
 
+    private Date modifyAt;
+
     private Integer del;
+
+    private boolean async = false;
+
 
 }

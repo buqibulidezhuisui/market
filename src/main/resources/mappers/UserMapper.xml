@@ -2,6 +2,16 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.market.mapper.UserMapper">
 
+    <select id="findAll" resultType="user" parameterType="user">
+        SELECT  *  FROM user
+        WHERE 1 = 1
+        <if test="username != null and username != ''">
+            and username LIKE CONCAT('%',#{username},'%')
+        </if>
+        <if test="mobile != null and mobile != ''">
+            and mobile LIKE CONCAT('%',#{mobile},'%')
+        </if>
+    </select>
 
     <select id="findByUserName" resultType="user">
         select * from user where username = #{username} limit 1
