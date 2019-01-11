@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
+
+
+<div data-th-fragment="div-header">
+    <nav class="navbar navbar-inverse bg-inverse navbar-toggleable-md nav-">
+
+        <a class="navbar-brand" href="/" th:href="@{/}">Market</a>
+        <div class="collapse navbar-collapse" id="navbarsContainer">
+            <ul class="navbar-nav mr-auto">
+            </ul>
+            <div sec:authorize="isAuthenticated()" class="row">
+                <div>
+                  <span sec:authentication="name" style="color: white"></span>
+                </div>
+
+                <form action="/logout" th:action="@{/logout}" method="post">
+                    <button class="btn btn-outline-success " type="submit" style="background:none;border:none">
+                        <text class="iconfont icon-tuichu1 "></text>
+                    </button>
+                </form>
+
+            </div>
+
+
+            <div sec:authorize="isAnonymous()">
+                <a href="/login" class="btn btn-outline-success my-2 my-sm-0" type="submit">登录</a>
+            </div>
+
+        </div>
+
+    </nav>
+
+</div>
+
+

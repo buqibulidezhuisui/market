@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+</head>
+<body>
+
+<!-- 左侧栏目 -->
+<div class="col-md-2 col-xl-2" data-th-fragment="left">
+    <!-- 分类 -->
+    <div class="card ">
+        <h5 class="card-header"><i class="fa fa-bars" aria-hidden="true"></i> 菜单</h5>
+
+       <ul class="list-group blog-menu" sec:authorize="hasRole('ROLE_ADMIN')">
+            <a href="javascript:void(0)" class="list-group-item "  th:title="用户管理"
+               data-th-attr="url='/users/search'" th:classappend="${pageType eq 'usersIndex'} ? 'active' : ''" >
+                <text class="iconfont icon-drxx10 "></text>&nbsp; 用户管理
+            </a>
+        </ul>
+
+        <ul class="list-group blog-menu" sec:authorize="hasRole('ROLE_PARK_OWNER') or hasRole('ROLE_PARK_ADMIN') or hasRole('ROLE_ADMIN')">
+            <a href="javascript:void(0)" class="list-group-item "  th:title="停车场管理"
+               data-th-attr="url='/park/search'" th:classappend="${pageType eq 'parkIndex'} ? 'active' : ''" >
+                <text class="iconfont icon-tingchechang "></text>&nbsp; 停车场管理
+            </a>
+        </ul>
+
+    </div>
+</div>
+
+</body>
+</html>
