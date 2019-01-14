@@ -10,4 +10,8 @@ public interface UserMapper extends BaseMapper<User> {
     public  User findByUserName(String username);
 
     public List<Authority> findByUserId(Long userId);
+
+    public User findUserById(Long id);
+
+    public void deleteUserById(Long id);
 }

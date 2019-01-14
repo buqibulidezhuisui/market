@@ -28,25 +28,58 @@
     </select>
 
     <insert id="saveT" parameterType="user" useGeneratedKeys="true" keyProperty="id">
-       INSERT INTO `user` (
-        `avatar`,
-        `email`,
-        `name`,
-        `mobile`,
-        `password`,
-        `username`
-    )
-    VALUES
-    (
-        '',
-        '',
-        '',
-        '',
-        #{password},
-        #{username}
-    );
+        INSERT INTO `user` (
+            `avatar`,
+            `email`,
+            `name`,
+            `mobile`,
+            `password`,
+            `username`,
+            `openid`,
+            `alipayid`,
+            `type`,
+            `create_at`,
+            `modify_at`
+        )
+        VALUES
+        (
+            #{avatar},
+            #{email},
+            #{name},
+            #{mobile},
+            #{password},
+            #{username},
+            #{openid},
+            #{alipayid},
+            #{type},
+            #{createAt},
+            #{modifyAt})
+        ON DUPLICATE KEY UPDATE
+            `avatar`= #{avatar},
+            `email` = #{email},
+            `name` = #{name},
+            `mobile` = #{mobile},
+            `password` = #{password},
+            `openid` = #{openid},
+            `alipayid` = #{alipayid},
+            `type` = #{type},
+            `modify_at` = #{modifyAt}
     </insert>
 
+    <select id="findUserById" parameterType="java.lang.Long" resultType="user">
+        SELECT
+          *
+        FROM
+          `user`
+        WHERE
+          id = #{id}
+    </select>
 
+    <delete id="deleteUserById" parameterType="java.lang.Long">
+        DELETE
+          FROM `user`
+        WHERE
+          `id` = #{id}
+    </delete>
 
 </mapper>

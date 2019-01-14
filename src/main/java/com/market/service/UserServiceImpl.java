@@ -54,5 +54,16 @@ public class UserServiceImpl implements UserService{
         return userMapper.findByUserName(username);
     }
 
+    @Override
+    public User findUserById(Long id) {
+        User user = userMapper.findUserById(id);
+        List<Authority> authorities = userMapper.findByUserId(user.getId());
+        user.setAuthorities(authorities);
+        return user;
+    }
 
+    @Override
+    public void deleteUserById(Long id) {
+        userMapper.deleteUserById(id);
+    }
 }

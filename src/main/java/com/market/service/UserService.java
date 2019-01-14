@@ -18,4 +18,8 @@ public interface UserService extends BaseService<User> {
      * @return the user
      */
     public  User findByUserName(String username);
+
+    public User findUserById(Long id);
+
+    public void deleteUserById(Long id);
 }
