@@ -55,4 +55,12 @@ dependencies {
     
     //An JDBC datasource implementation.
     compile group: 'com.alibaba', name: 'druid', version: '1.1.9'
+
+    //The Aliyun OSS SDK for Java used for accessing Aliyun Object Storage Service
+    compile group: 'com.aliyun.oss', name: 'aliyun-sdk-oss', version: '2.8.3'
+
+    // 添加  Apache Commons Lang 依赖
+    compile('org.apache.commons:commons-lang3:3.5')
+
+
 }
