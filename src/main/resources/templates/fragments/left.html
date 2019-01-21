@@ -18,10 +18,16 @@
             </a>
         </ul>
 
-        <ul class="list-group blog-menu" sec:authorize="hasRole('ROLE_PARK_OWNER') or hasRole('ROLE_PARK_ADMIN') or hasRole('ROLE_ADMIN')">
-            <a href="javascript:void(0)" class="list-group-item "  th:title="停车场管理"
-               data-th-attr="url='/park/search'" th:classappend="${pageType eq 'parkIndex'} ? 'active' : ''" >
-                <text class="iconfont icon-tingchechang "></text>&nbsp; 停车场管理
+        <ul class="list-group blog-menu" >
+            <a href="javascript:void(0)" class="list-group-item "  th:title="优惠券管理"
+               data-th-attr="url='/coupons/search'" th:classappend="${pageType eq 'couponsIndex'} ? 'active' : ''" >
+                <text class="iconfont icon-lishi "></text>&nbsp; 优惠券管理
+            </a>
+        </ul>
+        <ul class="list-group blog-menu" >
+            <a href="javascript:void(0)" class="list-group-item "  th:title="商家管理"
+               data-th-attr="url='/shop/search'" th:classappend="${pageType eq 'shopIndex'} ? 'active' : ''" >
+                <text class="iconfont icon-shangjiaguanli "></text>&nbsp; 商家管理
             </a>
         </ul>
 

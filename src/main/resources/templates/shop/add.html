@@ -1,0 +1,39 @@
+<div class="container">
+
+    <form th:action="@{/shop}" method="post" th:object="${shopModel.shop}" id="shopForm" enctype="multipart/form-data">
+        <input type="hidden" name="id" th:value="*{id}">
+
+
+        <div class="form-group ">
+            <label for="addr" class="col-form-label">商户地址</label>
+            <input type="text" class="form-control" id="addr" name="addr" th:value="*{addr}" maxlength="11"
+                   placeholder="请输入详细地址">
+        </div>
+
+        <div class="form-group">
+            <label for="name" class="col-form-label">商户名称</label>
+            <input type="text" class="form-control" id="name" name="name" th:value="*{name}" maxlength="50"
+                   placeholder="请输入商户名称">
+        </div>
+        <div class="form-group">
+            <label for="mobile" class="col-form-label">联系方式</label>
+            <input type="text" class="form-control" id="mobile" name="mobile" th:value="*{mobile}" maxlength="50"
+                   placeholder="商家电话">
+        </div>
+
+        <div class="form-group">
+            <label for="pic" class="col-form-label">头像</label>
+            <input type="file" class="form-control" id="pic" name="file"
+                   placeholder="请选择头像">
+        </div>
+        <div class="form-group ">
+            <label for="info" class="col-form-label">商户简介</label>
+            <textarea class="form-control" id="info" name="info" th:value="*{info}"
+                      placeholder="请输入商户简介"></textarea>
+        </div>
+
+
+    </form>
+
+</div>
+<!-- /.container -->

@@ -1,0 +1,94 @@
+<div data-th-fragment="coupons-index">
+    <div class="card-header bg-dark font-white">
+        <form class="form-inline">
+            <div class="form-group">
+                <label>商户号</label>
+                <input type="text" class="form-control" id="searchBussId" >
+            </div>
+            <div class="form-group">
+                <label>用户id</label>
+                <input type="text" class="form-control" id="searchUserId" >
+            </div>
+            <button class="btn btn-secondary" type="button" id="searchNameBtn">
+                <i class="fa fa-search" aria-hidden="true"></i>
+            </button>
+            <a class="btn btn-primary" data-toggle="modal"
+               data-target="#flipFlop" role="button" id="add-btn">
+                <i class="fa fa-plus" aria-hidden="true"></i>
+            </a>
+        </form>
+    </div>
+
+    <div id="mainContainer" class="container" style="overflow-x: auto;">
+        <div id="mainContainerRepleace" class="row">
+            <table class="table table-striped">
+                <thead>
+                <tr>
+                    <th data-field="id">ID</th>
+                    <th data-field="bussId">商户号</th>
+                    <th data-field="userId">用户id</th>
+                    <th data-field="getTime">领取时间</th>
+                    <th data-field="expirationTime">到期时间</th>
+                    <th data-field="money">优惠券金额</th>
+                    <th data-field="couponsNo">优惠码</th>
+                    <th data-field="type">优惠券类型</th>
+                </tr>
+                </thead>
+
+                <tbody>
+                <tr th:each="coupons : ${couponsModel.couponsList}">
+                    <td th:text="${coupons.id}">1</td>
+                    <td th:text="${coupons.bussId}" >1</td>
+                    <td th:text="${coupons.userId}" >1</td>
+                    <!--<td th:text="${#dates.format(object.inTime, 'yyyy-MM-dd HH:mm:ss')}"></td>-->
+                    <td th:text="${#dates.format(coupons.getTime,'yyyy-MM-dd HH:mm:ss')}" >zhangyuan</td>
+                    <td th:text="${#dates.format(coupons.expirationTime,'yyyy-MM-dd HH:mm:ss')}">zhangyuan</td>
+                    <td th:text="${coupons.money}">zhangyuan</td>
+                    <td th:text="${coupons.couponsNo}">zhangyuan</td>
+
+                    <!--全场通用,1指定商户可用,2仅领取人可用,3仅领取人可用的全场通用券-->
+                    <td th:switch="${coupons.type}" style="min-width: 120px;">
+                        <span th:case="0">全场通用</span>
+                        <span th:case="1">指定商户可用</span>
+                        <span th:case="2">仅领取人可用</span>
+                        <span th:case="3">仅领取人可用的全场通用券</span>
+                    </td>
+                    <td >
+                        <a class="object-edit" data-toggle="modal"
+                           data-target="#flipFlop" role="button" data-th-attr="couponsId=${coupons.id}">
+                            <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
+                        </a>
+                        <a class="object-delete" role="button" data-th-attr="couponsId=${coupons.id}">
+                            <i class="fa fa-times" aria-hidden="true"></i>
+                        </a>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+
+            <div th:replace="~{fragments/page :: page}">...</div>
+        </div>
+    </div>
+
+    <!-- The modal -->
+    <div class="modal fade" id="flipFlop" tabindex="-1" role="dialog"
+         aria-labelledby="modalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title" id="modalLabel">新增/编辑</h4>
+                    <button type="button" class="close" data-dismiss="modal"
+                            aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+
+                </div>
+                <div class="modal-body" id="form-container"></div>
+                <div class="modal-footer">
+                    <button class="btn btn-primary" data-dismiss="modal" id="submitEdit">提交</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

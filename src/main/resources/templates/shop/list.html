@@ -1,0 +1,98 @@
+<div data-th-fragment="shop-index">
+    <div class="card-header bg-dark font-white">
+        <form class="form-inline">
+            <div class="form-group">
+                <label>商户名称</label>
+                <input type="text" class="form-control" id="searchShopName" >
+            </div>
+            <div class="form-group">
+                <label>商户id</label>
+                <input type="text" class="form-control" id="searchBussId" >
+            </div>
+            <div class="form-group">
+                <label>商户地址</label>
+                <input type="text" class="form-control" id="searchAddr" >
+            </div>
+            <button class="btn btn-secondary" type="button" id="searchNameBtn">
+                <i class="fa fa-search" aria-hidden="true"></i>
+            </button>
+            <a class="btn btn-primary" data-toggle="modal"
+               data-target="#flipFlop" role="button" id="add-btn">
+                <i class="fa fa-plus" aria-hidden="true"></i>
+            </a>
+        </form>
+    </div>
+<style>
+    .tupian{ border:1px solid #fff; width:214px; height:120px}
+    .tupian img{width:214px; height:120px}
+
+    .class td,.class th /*设置表格文字左右和上下居中对齐*/
+    {
+        vertical-align: middle;
+        text-align: center;
+    }
+</style>
+    <div id="mainContainer" class="container" style="overflow-x: auto;">
+        <div id="mainContainerRepleace" class="row class" >
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th data-field="id">ID</th>
+                        <th data-field="name">商户名称</th>
+                        <th data-field="code">商户id</th>
+                        <th data-field="addr">商户地址</th>
+                        <th data-field="pic">头像</th>
+                        <th data-field="info">商家简介</th>
+                        <th data-field="mobile">联系方式</th>
+
+                    </tr>
+                </thead>
+
+                <tbody>
+                    <tr th:each="shop : ${shopModel.shopList}">
+                        <td style="vertical-align: middle;text-align: center; " th:text="${shop.id}">1</td>
+                        <td th:text="${shop.name}" >1</td>
+                        <td th:text="${shop.code}" >1</td>
+                        <td th:text="${shop.addr}" >zhangyuan</td>
+                        <td ><div class="tupian"><img th:src=${shop.pic} th:alt="${shop.pic}" /></div></td>
+                        <td th:text="${shop.info}">zhangyuan</td>
+                        <td th:text="${shop.mobile}">zhangyuan</td>
+                        <td >
+                            <a class="object-edit" data-toggle="modal"
+                               data-target="#flipFlop" role="button" data-th-attr="id=${shop.id}">
+                                <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
+                            </a>
+                            <a class="object-delete" role="button" data-th-attr="id=${shop.id}">
+                                <i class="fa fa-times" aria-hidden="true"></i>
+                            </a>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div th:replace="~{fragments/page :: page}">...</div>
+        </div>
+    </div>
+
+    <!-- The modal -->
+    <div class="modal fade" id="flipFlop" tabindex="-1" role="dialog"
+         aria-labelledby="modalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title" id="modalLabel">新增/编辑</h4>
+                    <button type="button" class="close" data-dismiss="modal"
+                            aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+
+                </div>
+                <div class="modal-body" id="form-container"></div>
+                <div class="modal-footer">
+                    <button class="btn btn-primary" data-dismiss="modal" id="submitEdit">提交</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

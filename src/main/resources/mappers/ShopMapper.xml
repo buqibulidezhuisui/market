@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.market.mapper.ShopMapper">
+
+    <select id="findLikeBussIdAndAddrAndName" resultType="shop" parameterType="shop">
+        SELECT
+        *
+        FROM
+        `shop`
+        <where>
+            <if test="code != null and code!='' ">
+                AND `code` like CONCAT('%',#{code},'%')
+            </if>
+            <if test="addr != null and addr!='' ">
+                AND `addr` like CONCAT('%',#{addr},'%')
+            </if>
+            <if test="name != null and name!='' ">
+                AND `name` like CONCAT('%',#{name},'%')
+            </if>
+            AND del=1
+        </where>
+
+    </select>
+    <select id="findAll" resultType="shop" parameterType="shop">
+        SELECT * FROM `shop` WHERE `del`=1
+    </select>
+    <update id="deleteById" parameterType="java.lang.Long">
+        update shop set   `del`=0
+        WHERE id = #{id}
+
+
+    </update>
+    <insert id="saveT" parameterType="shop" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO `shop`(
+            `code`,
+            `addr`,
+            `name`,
+            `pic`,
+            `info`,
+            `create_at`,
+            `modify_at`,
+            `mobile`
+        )
+          VALUES (
+            #{code},
+            #{addr},
+            #{name},
+            #{pic},
+            #{info},
+            #{createAt},
+            #{modifyAt},
+            #{mobile}
+          )
+    </insert>
+    <update id="updateById" parameterType="shop">
+        UPDATE `shop`
+        <trim prefix="set" suffixOverrides=",">
+            <if test="code!=null">`code`= #{code},</if>
+            <if test="addr!=null">`addr`= #{addr},</if>
+            <if test="name!=null">`name`= #{name},</if>
+            <if test="pic!=null">`pic`= #{pic},</if>
+            <if test="info!=null">`info`= #{info},</if>
+            <if test="modifyAt!=null">`modify_at`= #{modifyAt},</if>
+            <if test="mobile!=null">`mobile`= #{mobile},</if>
+
+        </trim>
+        WHERE `id`=#{id}
+    </update>
+    <select id="findById" parameterType="java.lang.Long" resultType="shop">
+        SELECT
+        *
+        FROM `shop`
+        where id=#{id} AND  del=1
+    </select>
+</mapper>

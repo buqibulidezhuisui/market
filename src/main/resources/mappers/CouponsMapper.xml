@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.market.mapper.CouponsMapper">
+    <select id="findCouponsById" resultType="coupons">
+        select * from coupons where id=#{id}
+    </select>
+    <select id="findCouponsByUserId" resultType="coupons">
+        select * from coupons where userId=#{userId}
+    </select>
+    <select id="findCouponsByBussId" resultType="coupons">
+        select * from coupons where bussId=#{bussId}
+    </select>
+    <select id="findAll" resultType="coupons" parameterType="coupons">
+        select * from coupons
+    </select>
+</mapper>
