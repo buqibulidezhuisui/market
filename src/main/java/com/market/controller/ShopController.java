@@ -70,10 +70,15 @@ public class ShopController {
     public ResponseEntity<Response> create(Shop shop,@RequestParam("file") MultipartFile file) {
 
         if (shop.getId() == null) {//新增
-            String pic_url = OssAliyunUtil.upload(file);
+            if (!file.isEmpty()){
+                String pic_url = OssAliyunUtil.upload(file);
+                shop.setPic(pic_url);
+            }else{
+                shop.setPic("null");
+            }
             shop.setModifyAt(shop.getCreateAt());
             shop.setCode(UUID.randomUUID().toString().replace("-","").toUpperCase());
-            shop.setPic(pic_url);
+//            shop.setPic(pic_url);
 //            shop.setDel(1);//1表示未删除,0表示删除
             try {
 
