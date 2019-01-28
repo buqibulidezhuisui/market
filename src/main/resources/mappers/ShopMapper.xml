@@ -82,14 +82,21 @@
         SELECT * FROM `shop` WHERE `del`=1 AND `area` = #{area}
     </select>
 
-    <select id="findShopByName" parameterType="java.lang.String" resultType="shop">
+    <select id="findShopByNameAndTypeAndArea" parameterType="shop" resultType="shop">
         SELECT
           *
         FROM
           `shop`
         WHERE
-          `name` like CONCAT('%',#{name},'%')
-        AND
           `del` = 1
+        <if test="name != 'null' and name!='' ">
+            AND `name` like CONCAT('%',#{name},'%')
+        </if>
+        <if test="type != 'null' and type!='' ">
+            AND substr(`type`, 1, 2) = #{type}
+        </if>
+        <if test="area != 'null' and area!='' ">
+          AND `area` = #{area}
+        </if>
     </select>
 </mapper>
