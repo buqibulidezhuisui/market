@@ -26,5 +26,8 @@
         WHERE
           `parent_code` = #{code}
     </select>
+    <select id="findByCode" resultType="area">
+        select * from area where `code`=#{code}
+    </select>
 
 </mapper>

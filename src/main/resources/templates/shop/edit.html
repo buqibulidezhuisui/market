@@ -3,14 +3,32 @@
     <form th:action="@{/shop}" method="post" th:object="${shopModel.shop}" id="shopForm" enctype="multipart/form-data">
         <input type="hidden" name="id" th:value="*{id}">
         <input type="hidden" name="code" th:value="*{code}">
-
+        <input type="hidden" id="area" name="area" th:value="*{area}">
+        <input type="hidden" id="type" name="type" th:value="*{type}">
 
         <div class="form-group ">
             <label for="addr" class="col-form-label">商户地址</label>
+            <div id="d1">
+                <select name="shengID" id="s1" ></select>
+                <select name="shiID" id="s2"></select>
+                <select name="xianID" id="s3"></select>
+            </div>
             <input type="text" class="form-control" id="addr" name="addr" th:value="*{addr}" maxlength="11"
                    placeholder="请输入详细地址">
         </div>
 
+        <div class="form-group ">
+            <label for="type" class="col-form-label">店铺类型</label>
+            <div id="d2">
+                <select name="bigType" id="t1"></select>
+                <select name="smailType" id="t2"></select>
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="mobile" class="col-form-label">联系方式</label>
+            <input type="text" class="form-control" id="mobile" name="mobile" th:value="*{mobile}" maxlength="50"
+                   placeholder="商家电话">
+        </div>
         <div class="form-group">
             <label for="name" class="col-form-label">商户名称</label>
             <input type="text" class="form-control" id="name" name="name" th:value="*{name}" maxlength="50"
@@ -32,3 +50,13 @@
 
 </div>
 <!-- /.container -->
+<script th:src="@{/js/shop/edit_select_p_c_d.js}"></script>
+<script th:src="@{/js/shop/edit_select_type.js}"></script>
+<style type="text/css">
+
+    select{
+        height:29px;
+        font-size:15px;
+    }
+
+</style>

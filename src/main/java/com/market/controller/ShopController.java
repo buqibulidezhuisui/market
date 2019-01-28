@@ -95,6 +95,7 @@ public class ShopController {
             }
             shop.setModifyAt(shop.getCreateAt());
             shop.setCode(UUID.randomUUID().toString().replace("-","").toUpperCase());
+            shop.setType(shop.getType().replace(",",""));
 //            shop.setPic(pic_url);
 //            shop.setDel(1);//1表示未删除,0表示删除
             try {
@@ -109,7 +110,7 @@ public class ShopController {
             shop.setModifyAt(new Date());
             if (!file.isEmpty()){
                 String pic_url = OssAliyunUtil.upload(file);
-                shop.setPic(pic_url);
+               shop.setPic(pic_url);
             }
 
             try {

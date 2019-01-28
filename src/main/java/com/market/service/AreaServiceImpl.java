@@ -30,6 +30,11 @@ public class AreaServiceImpl implements AreaService {
     }
 
     @Override
+    public Area findByCode(String code) {
+        return areaMapper.findByCode(code);
+    }
+
+    @Override
     public int saveT(Area area) {
         return 0;
     }

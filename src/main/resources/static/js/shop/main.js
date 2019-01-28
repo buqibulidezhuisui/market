@@ -81,9 +81,11 @@ $(function () {
         var data = new FormData(form);
         var s3 = $("#s3").val();
         var t2 = $("#t2").val();
-        data.append("area",s3);
-        data.append("type",t2);
+        data.set("area",s3);
+        data.set("type",t2);
         console.log(data)
+        // var s = $("#typep").val();
+        alert(t2);
         $.ajax({
             url: "/shop",
             type: 'POST',

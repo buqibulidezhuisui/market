@@ -17,6 +17,7 @@ public interface AreaService extends BaseService<Area>{
    public List<Area> findAreaByCode(String code);
    List<Area> findAllProvince();
    List<Area> findCityByParentCode(String parentCode);
+   Area findByCode(String code);
 
 
 }

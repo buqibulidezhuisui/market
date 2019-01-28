@@ -57,4 +57,19 @@ public class ShopTypeController {
 
         return array;
     }
+    @RequestMapping(method = {RequestMethod.POST, RequestMethod.GET}, value = "/code/{code}")
+    public JSONArray findBycode(@PathVariable("code") String parentcode) {
+        ShopType a = shopTypeService.findByCode(parentcode);
+        JSONArray array = new JSONArray();
+//        model.addAttribute("areaList",allProvince);
+
+            JSONObject jsonObject = new JSONObject();
+            jsonObject.put("id", a.getCode());
+            jsonObject.put("full_name", a.getName());
+            array.add(jsonObject);
+
+
+        return array;
+    }
+
 }

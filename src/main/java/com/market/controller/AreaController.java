@@ -26,42 +26,56 @@ public class AreaController {
     @Autowired
     AreaService areaService;
 
-    @RequestMapping(method = {RequestMethod.POST,RequestMethod.GET},value = "/province")
-    public JSONArray findAllProvince(Model model){
+    @RequestMapping(method = {RequestMethod.POST, RequestMethod.GET}, value = "/province")
+    public JSONArray findAllProvince(Model model) {
         List<Area> allProvince = areaService.findAllProvince();
         JSONArray array = new JSONArray();
 //        model.addAttribute("areaList",allProvince);
-        for (Area a:allProvince) {
+        for (Area a : allProvince) {
             JSONObject jsonObject = new JSONObject();
-            jsonObject.put("id",a.getCode());
-            jsonObject.put("full_name",a.getName());
+            jsonObject.put("id", a.getCode());
+            jsonObject.put("full_name", a.getName());
             array.add(jsonObject);
         }
         return array;
 
     }
 
-    @RequestMapping(method = {RequestMethod.POST,RequestMethod.GET},value = "/parentcode/{parentcode}")
-    public JSONArray findByParent(@PathVariable("parentcode")String parentcode){
+    @RequestMapping(method = {RequestMethod.POST, RequestMethod.GET}, value = "/parentcode/{parentcode}")
+    public JSONArray findByParent(@PathVariable("parentcode") String parentcode) {
         List<Area> cityByParentCode = areaService.findCityByParentCode(parentcode);
         JSONArray array = new JSONArray();
 //        model.addAttribute("areaList",allProvince);
-        if(!parentcode.endsWith("00")){
-            for (Area a:cityByParentCode) {
+        if (!parentcode.endsWith("00")) {
+            for (Area a : cityByParentCode) {
                 JSONObject jsonObject = new JSONObject();
-                jsonObject.put("id",a.getCode());
-                jsonObject.put("full_name",a.getName());
+                jsonObject.put("id", a.getCode());
+                jsonObject.put("full_name", a.getName());
 //                jsonObject.put("code",a.getCode());
                 array.add(jsonObject);
             }
-        }else{
-            for (Area a:cityByParentCode) {
+        } else {
+            for (Area a : cityByParentCode) {
                 JSONObject jsonObject = new JSONObject();
-                jsonObject.put("id",a.getCode());
-                jsonObject.put("full_name",a.getName());
+                jsonObject.put("id", a.getCode());
+                jsonObject.put("full_name", a.getName());
                 array.add(jsonObject);
             }
         }
+        return array;
+    }
+
+    @RequestMapping(method = {RequestMethod.POST, RequestMethod.GET}, value = "/code/{code}")
+    public JSONArray findByCode(@PathVariable("code") String code) {
+        Area a = areaService.findByCode(code);
+        JSONArray array = new JSONArray();
+//        model.addAttribute("areaList",allProvince);
+
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("id", a.getCode());
+        jsonObject.put("full_name", a.getName());
+//                jsonObject.put("code",a.getCode());
+        array.add(jsonObject);
         return array;
     }
 }

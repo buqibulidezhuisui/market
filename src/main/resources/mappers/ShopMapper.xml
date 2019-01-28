@@ -4,7 +4,7 @@
 
     <select id="findLikeBussIdAndAddrAndName" resultType="shop" parameterType="shop">
         SELECT
-        s.`id` ,s.`create_at`,s.`modify_at`,s.`code`,s.`addr`,s.`name`,s.`pic`,s.`info`,s.`del`,s.`area`,s.`type`,t.name `type_name`
+        s.`id` ,s.`create_at`,s.`modify_at`,s.`code`,s.`addr`,s.`name`,s.`pic`,s.`info`,s.`del`,s.`area`,s.`type`,s.`mobile`,t.name `type_name`
         FROM
         `shop` s left JOIN shop_type t on s.type=t.code
         <where>
@@ -18,12 +18,12 @@
             <if test="name != null and name!='' ">
                 AND s.`name` like CONCAT('%',#{name},'%')
             </if>
-            AND del=1
+            AND del=1 Order by s.`id` desc
         </where>
 
     </select>
     <select id="findAll" resultType="shop" parameterType="shop">
-        SELECT s.`id` ,s.`create_at`,s.`modify_at`,s.`code`,s.`addr`,s.`name`,s.`pic`,s.`info`,s.`del`,s.`area`,s.`type`,t.name `type_name` FROM `shop` s left JOIN shop_type t on s.type=t.code WHERE 1=1 and s.`del`=1
+        SELECT s.`id` ,s.`create_at`,s.`modify_at`,s.`code`,s.`addr`,s.`name`,s.`pic`,s.`info`,s.`del`,s.`area`,s.`type` , s.`mobile`,t.name `type_name` FROM `shop` s left JOIN shop_type t on s.type=t.code WHERE 1=1 and s.`del`=1 Order by s.`id` desc
     </select>
     <update id="deleteById" parameterType="java.lang.Long">
         update shop set   `del`=0
@@ -67,6 +67,8 @@
             <if test="info!=null">`info`= #{info},</if>
             <if test="modifyAt!=null">`modify_at`= #{modifyAt},</if>
             <if test="mobile!=null">`mobile`= #{mobile},</if>
+            <if test="area!=null">`area`=#{area},</if>
+            <if test="type!=null">`type`=#{type}</if>
 
         </trim>
         WHERE `id`=#{id}
@@ -75,11 +77,11 @@
         SELECT
         *
         FROM `shop`
-        where id=#{id} AND  del=1
+        where id=#{id} AND  del=1 Order by s.`id` desc
     </select>
 
     <select id="findShopByNameAndArea" resultType="shop" parameterType="java.lang.String">
-        SELECT * FROM `shop` WHERE `del`=1 AND `area` = #{area}
+        SELECT * FROM `shop` WHERE `del`=1 AND `area` = #{area} Order by s.`id` desc
     </select>
 
     <select id="findShopByName" parameterType="java.lang.String" resultType="shop">
@@ -90,6 +92,6 @@
         WHERE
           `name` like CONCAT('%',#{name},'%')
         AND
-          `del` = 1
+          `del` = 1 Order by s.`id` desc
     </select>
 </mapper>
