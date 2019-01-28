@@ -6,9 +6,11 @@ import com.market.base.response.ServerResponse;
 import com.market.config.WXPayConfig;
 import com.market.domain.Area;
 import com.market.domain.Shop;
+import com.market.domain.ShopType;
 import com.market.domain.User;
 import com.market.service.AreaService;
 import com.market.service.ShopService;
+import com.market.service.ShopTypeService;
 import com.market.service.UserService;
 import com.market.util.CommonUtil;
 import com.market.vo.Response;
@@ -29,6 +31,9 @@ public class wxController {
 
     @Autowired
     private AreaService areaService;
+
+    @Autowired
+    private ShopTypeService shopTypeService;
 
     /**
      * 功能描述：获取微信openid
@@ -89,6 +94,8 @@ public class wxController {
     /**
      * 功能描述：微信小程序根据店铺名、店铺类型和店铺位置查询商家列表
      * @param name
+     * @param type
+     * @param area
      * @return
      * @author caoyong
      * @date 2019/1/16 13:53
@@ -100,12 +107,10 @@ public class wxController {
         JSONArray jsonArray = new JSONArray();
         List<Shop> shopList = new ArrayList<>();
         Shop s = new Shop();
-        if("null".equals(name)) {
-            s.setName(name);
-            shopList = shopService.findShop(s);
-        } else {
-            shopList = shopService.findShopByName(name);
-        }
+        s.setName(name);
+        s.setType(type);
+        s.setArea(area);
+        shopList = shopService.findShopByNameAndTypeAndArea(s);
 
         for(int i=0;i<shopList.size();i++) {
             Shop shop = shopList.get(i);
@@ -115,6 +120,30 @@ public class wxController {
             jsonObject.put("pic", shop.getPic());
             jsonObject.put("info", shop.getInfo());
             jsonObject.put("mobile", shop.getMobile());
+            jsonArray.add(jsonObject);
+        }
+
+        return ServerResponse.createBySuccess(jsonArray);
+    }
+
+    /**
+     * 功能描述：查询商品的所有类型列表
+     * @return
+     * @author caoyong
+     * @date 2019/1/28 13:21
+     */
+    @GetMapping("/shopType")
+    public ServerResponse<JSONArray> shopTypeList() {
+        JSONArray jsonArray = new JSONArray();
+
+        List<ShopType> shopTypeList = shopTypeService.findBigType();
+        for(int i=0; i<shopTypeList.size(); i++) {
+            JSONObject jsonObject = new JSONObject();
+            ShopType shopType = shopTypeList.get(i);
+            jsonObject.put("code", shopType.getCode());
+            jsonObject.put("name", shopType.getName());
+            jsonObject.put("parentCode", shopType.getParentCode());
+
             jsonArray.add(jsonObject);
         }
 

@@ -25,5 +25,5 @@ public interface ShopMapper extends BaseMapper<Shop> {
     int updateById(Shop t);
     public void deleteById(Long id);
 
-    public List<Shop> findShopByName(String name);
+    public List<Shop> findShopByNameAndTypeAndArea(Shop shop);
 }

@@ -21,7 +21,5 @@ public interface ShopService extends BaseService<Shop> {
     int updateById(Shop t);
     public void deleteUserById(Long id);
 
-    public List<Shop> findShop(Shop shop);
-
-    public List<Shop> findShopByName(String name);
+    public List<Shop> findShopByNameAndTypeAndArea(Shop shop);
 }
