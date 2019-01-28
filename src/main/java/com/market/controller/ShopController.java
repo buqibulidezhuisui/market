@@ -4,6 +4,7 @@ import com.github.pagehelper.PageInfo;
 import com.market.domain.Shop;
 import com.market.oss.OssAliyunUtil;
 import com.market.service.ShopService;
+import com.market.service.ShopTypeService;
 import com.market.vo.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -36,12 +37,28 @@ public class ShopController {
 
     @Autowired
     ShopService shopService;
+    @Autowired
+    ShopTypeService shopTypeService;
 
     @RequestMapping(method = {RequestMethod.GET, RequestMethod.POST}, value = "/search")
     public ModelAndView findall(@RequestBody(required = false) Shop shop, Model model) {
         shop = shop != null ? shop : new Shop();
         PageInfo<Shop> likeBussId = shopService.findAll(shop, shop.getPageIndex());
         List<Shop> list = likeBussId.getList();
+//        List<Shop> lis = new ArrayList<>();
+//        for (Shop s :
+//                list) {
+//            ShopType byCode = shopTypeService.findByCode(s.getType());
+//            if (byCode!=null){
+//                ShopType byCode1 = shopTypeService.findByCode(byCode.getParentCode());
+//                s.setType(byCode1.getName()+"|"+byCode.getName());
+//
+//            }else{
+//                s.setType("null");
+//            }
+//            lis.add(s);
+//        }
+
         model.addAttribute("page", likeBussId);
         model.addAttribute("shopList", list);
         model.addAttribute("pageType", "shopIndex");

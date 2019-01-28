@@ -13,4 +13,5 @@ import java.util.List;
 public interface ShopTypeService {
     List<ShopType> findBigType();
     List<ShopType> findSmailTypeByBigCode(String parentCode);
+    ShopType findByCode(String code);
 }

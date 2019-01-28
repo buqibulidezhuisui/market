@@ -29,4 +29,9 @@ public class ShopTypeServiceImpl implements ShopTypeService {
     public List<ShopType> findSmailTypeByBigCode(String parentCode) {
         return shopTypeMapper.findSmailTypeByBigCode(parentCode);
     }
+
+    @Override
+    public ShopType findByCode(String code) {
+        return shopTypeMapper.findByCode(code);
+    }
 }

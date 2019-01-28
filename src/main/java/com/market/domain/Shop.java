@@ -35,4 +35,5 @@ public class Shop extends BaseEntity {
     private String area;
 //    店铺类型
     private String type;
+    private String typeName;
 }

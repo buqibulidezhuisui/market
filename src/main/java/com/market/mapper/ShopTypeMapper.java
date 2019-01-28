@@ -16,4 +16,5 @@ import java.util.List;
 public interface ShopTypeMapper {
     List<ShopType> findBigType();
     List<ShopType> findSmailTypeByBigCode(String parentCode);
+    ShopType findByCode(String code);
 }

@@ -9,4 +9,9 @@
     <select id="findSmailTypeByBigCode" resultType="shoptype">
       SELECT * from shop_type where parent_code = #{parentCode}
     </select>
+    <select id="findByCode" resultType="shoptype">
+      SELECT * from shop_type where code = #{code}
+    </select>
+
+
 </mapper>

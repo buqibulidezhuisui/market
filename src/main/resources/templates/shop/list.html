@@ -44,6 +44,7 @@
                         <th data-field="pic">头像</th>
                         <th data-field="info">商家简介</th>
                         <th data-field="mobile">联系方式</th>
+                        <th data-field="type">店铺分类</th>
 
                     </tr>
                 </thead>
@@ -57,6 +58,7 @@
                         <td ><div class="tupian"><img th:src=${shop.pic} th:alt="${shop.pic}" /></div></td>
                         <td th:text="${shop.info}">zhangyuan</td>
                         <td th:text="${shop.mobile}">zhangyuan</td>
+                        <td > <span data-th-if="${shop.typeName!=null || shop.typeName!=''}" data-th-text="${shop.typeName}"></span><span th:unless="${shop.typeName}" data-th-text="未设置分类"></span></td>
                         <td >
                             <a class="object-edit" data-toggle="modal"
                                data-target="#flipFlop" role="button" data-th-attr="id=${shop.id}">

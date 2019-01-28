@@ -4,25 +4,26 @@
 
     <select id="findLikeBussIdAndAddrAndName" resultType="shop" parameterType="shop">
         SELECT
-        *
+        s.`id` ,s.`create_at`,s.`modify_at`,s.`code`,s.`addr`,s.`name`,s.`pic`,s.`info`,s.`del`,s.`area`,s.`type`,t.name `type_name`
         FROM
-        `shop`
+        `shop` s left JOIN shop_type t on s.type=t.code
         <where>
+            1=1
             <if test="code != null and code!='' ">
-                AND `code` like CONCAT('%',#{code},'%')
+                AND s.`code` like CONCAT('%',#{code},'%')
             </if>
             <if test="addr != null and addr!='' ">
-                AND `addr` like CONCAT('%',#{addr},'%')
+                AND s.`addr` like CONCAT('%',#{addr},'%')
             </if>
             <if test="name != null and name!='' ">
-                AND `name` like CONCAT('%',#{name},'%')
+                AND s.`name` like CONCAT('%',#{name},'%')
             </if>
             AND del=1
         </where>
 
     </select>
     <select id="findAll" resultType="shop" parameterType="shop">
-        SELECT * FROM `shop` WHERE `del`=1
+        SELECT s.`id` ,s.`create_at`,s.`modify_at`,s.`code`,s.`addr`,s.`name`,s.`pic`,s.`info`,s.`del`,s.`area`,s.`type`,t.name `type_name` FROM `shop` s left JOIN shop_type t on s.type=t.code WHERE 1=1 and s.`del`=1
     </select>
     <update id="deleteById" parameterType="java.lang.Long">
         update shop set   `del`=0
