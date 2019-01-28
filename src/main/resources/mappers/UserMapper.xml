@@ -82,4 +82,13 @@
           `id` = #{id}
     </delete>
 
+    <select id="findUserByOpenid" resultType="user" parameterType="java.lang.String">
+        SELECT
+          *
+        FROM
+          `user`
+        WHERE
+          `openid` = #{openid}
+    </select>
+
 </mapper>

@@ -52,18 +52,15 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	 */
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
-		http.authorizeRequests().antMatchers("/css/**", "/js/**", "/fonts/**", "/iconfont/**","/plugins/**").permitAll() // 都可以访问
-				.antMatchers("/login","/register").permitAll()
-                .anyRequest().authenticated()
+		http.authorizeRequests().antMatchers("/css/**", "/js/**", "/fonts/**", "/index","/home/**","/login").permitAll() // 都可以访问
+				.antMatchers("/h2-console/**").permitAll() // 都可以访问
+				.antMatchers("/admins/admin/**","/user/**").hasRole("ADMIN")// 需要相应的角色才能访问
 				.and()
-                .formLogin()   //基于 Form 表单登录验证
-                .loginPage("/login").failureUrl("/login?error=true") // 自定义登录界面
-                .failureHandler(myAuthenticationFailureHandler)
-                .successHandler(myAuthenticationSuccessHandler)
-                .and().rememberMe().key(KEY) // 启用 remember me
-                .and().exceptionHandling().accessDeniedPage("/403");  // 处理异常，拒绝访问就重定向到 403 页面
+				.formLogin()   //基于 Form 表单登录验证
+				.loginPage("/login").failureUrl("/login?error=true") // 自定义登录界面
+				.and().rememberMe().key(KEY) // 启用 remember me
+				.and().exceptionHandling().accessDeniedPage("/403");  // 处理异常，拒绝访问就重定向到 403 页面
 		http.csrf().ignoringAntMatchers("/h2-console/**"); // 禁用 H2 控制台的 CSRF 防护
-		http.csrf().ignoringAntMatchers("/plugins/**");
 		http.headers().frameOptions().sameOrigin(); // 允许来自同一来源的H2 控制台的请求
 	}
 

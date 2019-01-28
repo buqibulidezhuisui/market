@@ -3,6 +3,8 @@ package com.market.service;
 import com.github.pagehelper.PageInfo;
 import com.market.domain.Shop;
 
+import java.util.List;
+
 /**
  * @InterfaceName ShopService
  * @Description TODO
@@ -18,4 +20,8 @@ public interface ShopService extends BaseService<Shop> {
 
     int updateById(Shop t);
     public void deleteUserById(Long id);
+
+    public List<Shop> findShop(Shop shop);
+
+    public List<Shop> findShopByName(String name);
 }

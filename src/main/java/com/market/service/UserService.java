@@ -22,4 +22,6 @@ public interface UserService extends BaseService<User> {
     public User findUserById(Long id);
 
     public void deleteUserById(Long id);
+
+    public User findUserByOpenid(String openid);
 }

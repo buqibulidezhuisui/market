@@ -14,4 +14,6 @@ public interface UserMapper extends BaseMapper<User> {
     public User findUserById(Long id);
 
     public void deleteUserById(Long id);
+
+    public User findUserByOpenid(String openid);
 }

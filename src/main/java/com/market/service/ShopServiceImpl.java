@@ -74,4 +74,14 @@ public class ShopServiceImpl implements ShopService {
 
 
     }
+
+    @Override
+    public List<Shop> findShop(Shop shop) {
+        return shopMapper.findAll(shop);
+    }
+
+    @Override
+    public List<Shop> findShopByName(String name) {
+        return shopMapper.findShopByName(name);
+    }
 }
