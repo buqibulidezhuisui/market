@@ -9,5 +9,22 @@
     <select id="findCityByParentCode" resultType="Area">
         SELECT * FROM area where  `parent_code`=#{parentCode}
     </select>
+    <select id="findAreaByName" parameterType="java.lang.String" resultType="area">
+        SELECT
+          *
+        FROM
+          `area`
+        WHERE
+          `name` = #{name}
+    </select>
+
+    <select id="findAreaByCode" parameterType="java.lang.String" resultType="area">
+        SELECT
+          *
+        FROM
+          `area`
+        WHERE
+          `parent_code` = #{code}
+    </select>
 
 </mapper>

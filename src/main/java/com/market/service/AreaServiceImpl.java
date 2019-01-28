@@ -48,4 +48,12 @@ public class AreaServiceImpl implements AreaService {
     public void removeT(Area area) {
 
     }
+    public Area findAreaByName(String name) {
+        return areaMapper.findAreaByName(name);
+    }
+
+    public List<Area> findAreaByCode(String code) {
+        return areaMapper.findAreaByCode(code);
+    }
+
 }

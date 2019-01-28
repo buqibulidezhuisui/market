@@ -15,4 +15,6 @@ import java.util.List;
 public interface AreaMapper {
     List<Area> findAllProvince();
     List<Area> findCityByParentCode(String parentCode);
+    public Area findAreaByName(String name);
+    public List<Area> findAreaByCode(String code);
 }

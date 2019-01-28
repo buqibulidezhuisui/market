@@ -20,5 +20,5 @@ public class Area {
     private String name;
     private String code;
     private String parentCode;
-    private String leave;//type  1:省,2:市,3:县
+    private String level;//type  1:省,2:市,3:县
 }
