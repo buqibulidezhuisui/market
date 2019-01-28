@@ -4,8 +4,15 @@ import com.market.domain.Area;
 
 import java.util.List;
 
-public interface AreaService {
-    public Area findAreaByName(String name);
+/**
+ * @InterfaceName AreaService
+ * @Description TODO
+ * @date 19-1-25 上午10:27
+ * @Author hanbing
+ */
+public interface AreaService extends BaseService<Area>{
+   List<Area> findAllProvince();
+   List<Area> findCityByParentCode(String parentCode);
 
-    public List<Area> findAreaByCode(String code);
+
 }

@@ -39,7 +39,9 @@
             `info`,
             `create_at`,
             `modify_at`,
-            `mobile`
+            `mobile`,
+            `type`,
+            `area`
         )
           VALUES (
             #{code},
@@ -49,7 +51,9 @@
             #{info},
             #{createAt},
             #{modifyAt},
-            #{mobile}
+            #{mobile},
+            #{type},
+            #{area}
           )
     </insert>
     <update id="updateById" parameterType="shop">

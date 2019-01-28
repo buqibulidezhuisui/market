@@ -31,4 +31,8 @@ public class Shop extends BaseEntity {
 //    联系方式
     private String mobile;
 //    删除标记  del=1 为未删除 del=0 为删除
+//    商店区域代码
+    private String area;
+//    店铺类型
+    private String type;
 }

@@ -79,6 +79,10 @@ $(function () {
         var form = $('#shopForm')[0];
 
         var data = new FormData(form);
+        var s3 = $("#s3").val();
+        var t2 = $("#t2").val();
+        data.append("area",s3);
+        data.append("type",t2);
         console.log(data)
         $.ajax({
             url: "/shop",
@@ -139,7 +143,7 @@ $(function () {
 
     $(document).on("blur","#mobile",function () {
         var mobile = $("#mobile").val();
-        alert(mobile);
+        // alert(mobile);
         // var b=/^(\(\d{3,4}\)|\d{3,4}-|\s)?\d{7,14}$/.test(mobile);
         // alert(b)
         if(!/^(\(\d{3,4}\)|\d{3,4}-|\s)?\d{7,14}$/.test(mobile)){

@@ -6,10 +6,22 @@
 
         <div class="form-group ">
             <label for="addr" class="col-form-label">商户地址</label>
+            <div id="d1">
+                <select name="shengID" id="s1" ></select>
+                <select name="shiID" id="s2"></select>
+                <select name="xianID" id="s3"></select>
+            </div>
             <input type="text" class="form-control" id="addr" name="addr" th:value="*{addr}" maxlength="11"
                    placeholder="请输入详细地址">
         </div>
 
+        <div class="form-group ">
+            <label for="type" class="col-form-label">店铺类型</label>
+            <div id="d2">
+                <select name="bigType" id="t1"></select>
+                <select name="smailType" id="t2"></select>
+            </div>
+        </div>
         <div class="form-group">
             <label for="name" class="col-form-label">商户名称</label>
             <input type="text" class="form-control" id="name" name="name" th:value="*{name}" maxlength="50"
@@ -37,3 +49,13 @@
 
 </div>
 <!-- /.container -->
+<script th:src="@{/js/shop/select_p_c_d.js}"></script>
+<script th:src="@{/js/shop/select_type.js}"></script>
+<style type="text/css">
+
+    select{
+        height:29px;
+        font-size:15px;
+    }
+
+</style>
