@@ -31,35 +31,34 @@ public class CouponsController {
     @Autowired
     UserService userService;
 
-    @RequestMapping(method = {RequestMethod.GET,RequestMethod.POST},value = "/search")
-    public ModelAndView findAll(@RequestBody(required = false) Coupons coupons, Model model){
-        coupons=coupons!=null?coupons:new Coupons();
+    @RequestMapping(method = {RequestMethod.GET, RequestMethod.POST}, value = "/search")
+    public ModelAndView findAll(@RequestBody(required = false) Coupons coupons, Model model) {
+        coupons = coupons != null ? coupons : new Coupons();
         PageInfo<Coupons> pageInfo = couponsService.findAll(coupons, coupons.getPageIndex());
-        List<Coupons> list  = pageInfo.getList();
+        List<Coupons> list = pageInfo.getList();
 
-        model.addAttribute("page",pageInfo);
-        model.addAttribute("couponsList",list);
-        model.addAttribute("pageType","couponsIndex");
+        model.addAttribute("page", pageInfo);
+        model.addAttribute("couponsList", list);
+        model.addAttribute("pageType", "couponsIndex");
         return new ModelAndView(coupons.isAsync() == true ? "coupons/list :: #mainContainerRepleace" : "main", "couponsModel", model);
     }
-    @RequestMapping(method = {RequestMethod.GET,RequestMethod.POST},value = "/search/{bussId}/{userId}")
-    public ModelAndView findById(@PathVariable("bussId") Long bussId,@PathVariable("userId") Long userId, Model model){
-        if (bussId !=null&& userId!=null){
+
+    @RequestMapping(method = {RequestMethod.GET, RequestMethod.POST}, value = "/search/{bussId}/{userId}")
+    public ModelAndView findById(@PathVariable("bussId") Long bussId, @PathVariable("userId") Long userId, Model model) {
+        if (bussId != null && userId != null) {
             List<Coupons> couponsByBussIdAndUserId = couponsService.findCouponsByBussIdAndUserId(bussId, userId);
-        }else if(bussId!=null&&userId==null){
+        } else if (bussId != null && userId == null) {
             List<Coupons> couponsByUserId = couponsService.findCouponsByUserId(userId);
-        }else if(bussId==null&&userId!=null){
+        } else if (bussId == null && userId != null) {
             List<Coupons> couponsByBussId = couponsService.findCouponsByBussId(bussId);
-        }else if(bussId==null&&userId==null){
+        } else if (bussId == null && userId == null) {
             SecurityContext ctx = SecurityContextHolder.getContext();
             Authentication auth = ctx.getAuthentication();
             User u = (User) auth.getPrincipal();
             com.market.domain.User user = userService.findByUserName(u.getUsername());
             List<Coupons> couponsByUserId = couponsService.findCouponsByUserId(user.getId());
-
         }
-
-return null;
+        return null;
 
     }
 

@@ -40,6 +40,11 @@ public class AreaServiceImpl implements AreaService {
     }
 
     @Override
+    public int updateT(Area area) {
+        return 0;
+    }
+
+    @Override
     public PageInfo<Area> findAll(Area area, int pageNum) {
         return null;
     }

@@ -57,6 +57,11 @@ public class ShopServiceImpl implements ShopService {
     }
 
     @Override
+    public int updateT(Shop shop) {
+        return 0;
+    }
+
+    @Override
     public PageInfo<Shop> findAll(Shop shop, int pageNum) {
         PageHelper.startPage(pageNum, ParamCommon.QUERY_PAGE_SIZE);
         List<Shop> all = shopMapper.findAll(shop);

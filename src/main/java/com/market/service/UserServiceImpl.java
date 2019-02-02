@@ -26,6 +26,11 @@ public class UserServiceImpl implements UserService{
     }
 
     @Override
+    public int updateT(User user) {
+        return 0;
+    }
+
+    @Override
     public PageInfo<User> findAll(User user, int pageNum) {
         PageHelper.startPage(pageNum, ParamCommon.QUERY_PAGE_SIZE);
         List<User> list = userMapper.findAll(user);

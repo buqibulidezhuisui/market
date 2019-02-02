@@ -11,6 +11,8 @@ public interface BaseMapper<T> {
 
     int saveT(T t);
 
+    int updateT(T t);
+
     void removeT(T t);
 
 

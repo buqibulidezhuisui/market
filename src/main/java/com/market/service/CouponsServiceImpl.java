@@ -50,6 +50,11 @@ public class CouponsServiceImpl implements CouponsService {
     }
 
     @Override
+    public int updateT(Coupons coupons) {
+        return 0;
+    }
+
+    @Override
     public PageInfo<Coupons> findAll(Coupons coupons, int pageNum) {
         PageHelper.startPage(pageNum, ParamCommon.QUERY_PAGE_SIZE);
         List<Coupons> list = couponsMapper.findAll(coupons);
