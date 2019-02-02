@@ -79,4 +79,9 @@ public class ShopServiceImpl implements ShopService {
     public List<Shop> findShopByNameAndTypeAndArea(Shop shop) {
         return shopMapper.findShopByNameAndTypeAndArea(shop);
     }
+
+    @Override
+    public List<Shop> findShopByNameAndTypeAndAreaAndDiscount(Shop shop) {
+        return shopMapper.findShopByNameAndTypeAndAreaAndDiscount(shop);
+    }
 }

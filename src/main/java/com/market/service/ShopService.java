@@ -22,4 +22,6 @@ public interface ShopService extends BaseService<Shop> {
     public void deleteUserById(Long id);
 
     public List<Shop> findShopByNameAndTypeAndArea(Shop shop);
+
+    public List<Shop> findShopByNameAndTypeAndAreaAndDiscount(Shop shop);
 }

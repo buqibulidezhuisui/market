@@ -178,4 +178,54 @@ public class wxController {
         return ServerResponse.createBySuccess(jsonArray);
     }
 
+    /**
+     * 功能描述：根据经纬度计算各店铺与当前位置的距离
+     * @param name
+     * @param type
+     * @param area
+     * @param distance
+     * @param longitude
+     * @param latitude
+     * @return
+     * @author caoyong
+     * @date 2019/2/1 10:21
+     */
+    @GetMapping("/shopList/name/{name}/type/{type}/area/{area}/distance/{distance}/longitude/{longitude}/latitude/{latitude}")
+    public ServerResponse<JSONArray> getShopList(@PathVariable("name") String name,
+                                                 @PathVariable("type") String type,
+                                                 @PathVariable("area") String area,
+                                                 @PathVariable("distance") double distance,
+                                                 @PathVariable("longitude") double longitude,
+                                                 @PathVariable("latitude") double latitude) {
+        JSONArray jsonArray = new JSONArray();
+
+        Shop shop = new Shop();
+        shop.setName(name);
+        shop.setType(type);
+        shop.setDistance(distance);
+        shop.setLongitude(longitude);
+        shop.setLatitude(latitude);
+        shop.setArea(area);
+        List<Shop> shopList = shopService.findShopByNameAndTypeAndAreaAndDiscount(shop);
+        for(int i=0;i<shopList.size();i++) {
+            Shop s = shopList.get(i);
+            JSONObject jsonObject = new JSONObject();
+            jsonObject.put("code", s.getCode());
+            jsonObject.put("addr", s.getAddr());
+            jsonObject.put("name", s.getName());
+            jsonObject.put("pic", s.getPic());
+            jsonObject.put("info", s.getInfo());
+            jsonObject.put("mobile", s.getMobile());
+            jsonObject.put("area", s.getArea());
+            jsonObject.put("type", s.getType());
+            jsonObject.put("distance", s.getDistance());
+            jsonObject.put("longitude", s.getLongitude());
+            jsonObject.put("latitude", s.getLatitude());
+
+            jsonArray.add(jsonObject);
+        }
+
+        return ServerResponse.createBySuccess(jsonArray);
+    }
+
 }

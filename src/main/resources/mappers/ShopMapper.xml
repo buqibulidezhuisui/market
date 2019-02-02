@@ -97,11 +97,11 @@
 
     <select id="findShopByNameAndTypeAndArea" parameterType="shop" resultType="shop">
         SELECT
-        *
+          *
         FROM
-        `shop`
+          `shop`
         WHERE
-        `del` = 1
+          `del` = 1
         <if test="name != 'null' and name!='' ">
             AND `name` like CONCAT('%',#{name},'%')
         </if>
@@ -112,4 +112,52 @@
             AND `area` = #{area}
         </if>
     </select>
+
+    <select id="findShopByNameAndTypeAndAreaAndDiscount" parameterType="shop" resultType="shop">
+        SELECT
+          a.*
+        FROM
+          (SELECT
+            *,
+            ROUND(
+              6378.138 * 2 * ASIN(
+                SQRT(
+                  POW(
+                    SIN(
+                      (
+                        #{latitude} * PI() / 180 - latitude * PI() / 180
+                      ) / 2
+                    ),
+                    2
+                    ) + COS(#{latitude} * PI() / 180) * COS(latitude * PI() / 180) * POW(
+                    SIN(
+                      (
+                        #{longitude} * PI() / 180 - longitude * PI() / 180
+                      ) / 2
+                    ),
+                    2
+                  )
+                )
+              ) * 1000
+            )/1000 AS distance
+          FROM
+            `shop`)a
+        WHERE
+          a.del = 1
+        <if test="name != 'null' and name!='' ">
+            AND a.name like CONCAT('%',#{name},'%')
+        </if>
+        <if test="type != 'null' and type!='' ">
+            AND substr(a.type, 1, 2) = #{type}
+        </if>
+        <if test="distance != '0' and distance!='' ">
+            AND #{distance} >= a.distance
+        </if>
+        <if test="area != 'null' and area!='' ">
+            AND a.area = #{area}
+        </if>
+        ORDER BY
+          a.distance ASC
+    </select>
+
 </mapper>

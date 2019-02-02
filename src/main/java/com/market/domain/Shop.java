@@ -36,4 +36,10 @@ public class Shop extends BaseEntity {
 //    店铺类型
     private String type;
     private String typeName;
+    //经度
+    private Double longitude;
+    //纬度
+    private Double latitude;
+    //距离
+    private Double distance;
 }
