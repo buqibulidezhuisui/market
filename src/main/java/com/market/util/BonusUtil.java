@@ -32,4 +32,8 @@ public class BonusUtil {
         return bonus;
     }
 
+    public static void addBonus(Double originFee){
+
+    }
+
 }

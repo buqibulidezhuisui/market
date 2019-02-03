@@ -15,9 +15,9 @@ public interface CouponsService extends BaseService<Coupons>{
 //    根据id查找优惠卷
     public Coupons findCouponsById(Long id);
 //    根据用户ID查找优惠券
-    public List<Coupons> findCouponsByUserId(Long userId);
+    public List<Coupons> findCouponsByUserId(String userId);
 //    根据商家id查找优惠券
-    public List<Coupons> findCouponsByBussId(Long bussId);
+    public List<Coupons> findCouponsByBussId(String bussId);
 //    根据商家id和用户ID查找优惠券
-    public List<Coupons> findCouponsByBussIdAndUserId(Long bussId,Long userId);
+    public List<Coupons> findCouponsByBussIdAndUserId(String bussId,String userId);
 }

@@ -29,17 +29,17 @@ public class CouponsServiceImpl implements CouponsService {
     }
 
     @Override
-    public List<Coupons> findCouponsByUserId(Long userId) {
+    public List<Coupons> findCouponsByUserId(String userId) {
         return couponsMapper.findCouponsByUserId(userId);
     }
 
     @Override
-    public List<Coupons> findCouponsByBussId(Long bussId) {
+    public List<Coupons> findCouponsByBussId(String bussId) {
         return couponsMapper.findCouponsByBussId(bussId);
     }
 
     @Override
-    public List<Coupons> findCouponsByBussIdAndUserId(Long bussId, Long userId) {
+    public List<Coupons> findCouponsByBussIdAndUserId(String bussId, String userId) {
         List<Coupons> couponsByBussIdAndUserId = couponsMapper.findCouponsByBussIdAndUserId(bussId, userId);
         return couponsByBussIdAndUserId;
     }
@@ -51,7 +51,8 @@ public class CouponsServiceImpl implements CouponsService {
 
     @Override
     public int updateT(Coupons coupons) {
-        return 0;
+        int i = couponsMapper.updateT(coupons);
+        return i;
     }
 
     @Override

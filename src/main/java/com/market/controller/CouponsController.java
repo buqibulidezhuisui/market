@@ -44,7 +44,7 @@ public class CouponsController {
     }
 
     @RequestMapping(method = {RequestMethod.GET, RequestMethod.POST}, value = "/search/{bussId}/{userId}")
-    public ModelAndView findById(@PathVariable("bussId") Long bussId, @PathVariable("userId") Long userId, Model model) {
+    public ModelAndView findById(@PathVariable("bussId") String bussId, @PathVariable("userId") String userId, Model model) {
         if (bussId != null && userId != null) {
             List<Coupons> couponsByBussIdAndUserId = couponsService.findCouponsByBussIdAndUserId(bussId, userId);
         } else if (bussId != null && userId == null) {
@@ -56,10 +56,19 @@ public class CouponsController {
             Authentication auth = ctx.getAuthentication();
             User u = (User) auth.getPrincipal();
             com.market.domain.User user = userService.findByUserName(u.getUsername());
-            List<Coupons> couponsByUserId = couponsService.findCouponsByUserId(user.getId());
+            if (user.getAlipayid() != null || user.getOpenid() != null) {
+                if (user.getAlipayid() != null) {
+                    List<Coupons> couponsByUserId = couponsService.findCouponsByUserId(user.getAlipayid());
+
+                } else if (user.getOpenid() != null) {
+                    List<Coupons> couponsByUserId = couponsService.findCouponsByUserId(user.getOpenid());
+                } else {
+                    List<Coupons> couponsByUserId = couponsService.findCouponsByUserId(user.getId().toString());
+                }
+            }
+
         }
+
         return null;
-
     }
-
 }

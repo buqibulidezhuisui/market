@@ -5,12 +5,32 @@
         select * from coupons where id=#{id}
     </select>
     <select id="findCouponsByUserId" resultType="coupons">
-        select * from coupons where userId=#{userId}
+        select * from coupons where user_id=#{userId}
     </select>
     <select id="findCouponsByBussId" resultType="coupons">
-        select * from coupons where bussId=#{bussId}
+        select * from coupons where buss_id=#{bussId}
     </select>
     <select id="findAll" resultType="coupons" parameterType="coupons">
         select * from coupons
     </select>
+    <insert id="saveT">
+        INSERT INTO  `coupons`(
+        `create_at`,
+        `modify_at`,
+        `user_id`,
+        `money`,
+        `coupons_no`,
+        `type`
+        ) VALUES (
+        #{createAt},
+        #{modifyAt},
+        #{userId},
+        #{money},
+        #{couponsNo},
+        #{type}
+        )
+    </insert>
+    <update id="updateT" parameterType="coupons">
+         update coupons SET money = #{money} WHERE id = #{id}
+    </update>
 </mapper>

@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.market.mapper.OrderMapper">
+    <select id="findAll" resultType="order">
+      SELECT * from `order` where 1=1 ORDER BY `modify_at` ;
+
+    </select>
+    <select id="findAllmini">
+        SELECT * from `order` where 1=1 ORDER BY `modify_at` limit 0,600;
+    </select>
+    <select id="findOrderByOpenId">
+        SELECT * FROM `order` WHERE `open_id`=#{openId} ORDER BY `modify_at` limit 0,600;
+    </select>
+    <select id="findOrderByAliId">
+        SELECT * FROM `order` WHERE `ali_id`=#{aliId} ORDER BY `modify_at` limit 0,600
+    </select>
+    <select id="findOrderByBussnessId">
+        select * from `order` where `bussness_id`=#{bussnessId}
+    </select>
+    <insert id="saveT">
+        insert INTO `order`(
+        `open_id`,
+        `ali_id`,
+        `order_no`,
+        `pay_fee`，
+        `status`,
+        `type`,
+         `trade_no`
+         ) VALUES (
+        #{openId},
+        #{aliId},
+        #{orderNo},
+        #{payFee},
+        #{status},
+        #{type},
+        #{tradeNo}
+        )
+    </insert>
+    <insert id="saveAsWX" parameterType="order">
+         insert INTO `order`(
+        `open_id`,
+        `order_no`,
+        `pay_fee`,
+        `type`,
+         `trade_no`
+         ) VALUES (
+        #{openId},
+        #{orderNo},
+        #{payFee},
+        #{type},
+        #{tradeNo}
+        )
+    </insert>
+    <insert id="saveAsAli" parameterType="order">
+         insert INTO `order`(
+        `ali_id`,
+        `order_no`,
+        `pay_fee`,
+        `type`,
+         `trade_no`
+         ) VALUES (
+        #{aliId},
+        #{orderNo},
+        #{payFee},
+        #{type},
+        #{tradeNo}
+        )
+    </insert>
+
+</mapper>

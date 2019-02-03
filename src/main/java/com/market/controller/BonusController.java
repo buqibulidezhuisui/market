@@ -1,30 +1,14 @@
 package com.market.controller;
 
-import com.alibaba.fastjson.JSONArray;
-import com.alibaba.fastjson.JSONObject;
-import com.github.pagehelper.PageInfo;
-import com.market.base.response.ServerResponse;
-import com.market.domain.*;
-import com.market.service.AuthorityService;
+import com.market.domain.BonusPool;
 import com.market.service.BonusPoolService;
-import com.market.service.UserService;
 import com.market.util.Arith;
 import com.market.util.BonusUtil;
-import com.market.util.PasswordUtil;
-import com.market.vo.Response;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.ui.Model;
 import org.springframework.util.Assert;
-import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.ModelAndView;
-
-import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Random;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 
 /**
