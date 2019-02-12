@@ -34,4 +34,9 @@ public class ShopTypeServiceImpl implements ShopTypeService {
     public ShopType findByCode(String code) {
         return shopTypeMapper.findByCode(code);
     }
+
+    @Override
+    public List<ShopType> findShopTypeListByShop() {
+        return shopTypeMapper.findShopTypeListByShop();
+    }
 }

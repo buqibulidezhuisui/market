@@ -128,23 +128,85 @@ public class wxController {
 
     /**
      * 功能描述：查询商品的所有类型列表
+     *           根据shop数据表查询店铺的类型，并且动态地显示在小程序的首页
      * @return
      * @author caoyong
      * @date 2019/1/28 13:21
+     *       2019/2/11 13:47
      */
-    @GetMapping("/shopType")
-    public ServerResponse<JSONArray> shopTypeList() {
+    @GetMapping("/shopType/{id}")
+    public ServerResponse<JSONArray> shopTypeList(@PathVariable("id") Long id) {
         JSONArray jsonArray = new JSONArray();
+        List<ShopType> shopTypeList = new ArrayList<>();
+        if(id == 1) {//小程序首页
+            shopTypeList = shopTypeService.findShopTypeListByShop();
+            for(int i=0; i<shopTypeList.size();i++) {
+                JSONObject jsonObject = new JSONObject();
+                ShopType shopType = shopTypeList.get(i);
+                if("01".equals(shopType.getCode())) {//热门
+                    jsonObject.put("class", "icon-remen");
+                } else if("02".equals(shopType.getCode())) {//美食
+                    jsonObject.put("class", "icon-meishi");
+                } else if("03".equals(shopType.getCode())) {//酒店
+                    jsonObject.put("class", "icon-jiudian");
+                } else if("04".equals(shopType.getCode())) {//周边游
+                    jsonObject.put("class", "icon-zhoubian");
+                } else if("05".equals(shopType.getCode())) {//休闲娱乐
+                    jsonObject.put("class", "icon-xiuxian");
+                } else if("06".equals(shopType.getCode())) {//学习培训
+                    jsonObject.put("class", "icon-xuexi");
+                } else if("07".equals(shopType.getCode())) {//购物
+                    jsonObject.put("class", "icon-gouwu");
+                } else if("08".equals(shopType.getCode())) {//度假
+                    jsonObject.put("class", "icon-dujia");
+                } else if("09".equals(shopType.getCode())) {//宴会
+                    jsonObject.put("class", "icon-yanhui");
+                } else if("10".equals(shopType.getCode())) {//时尚购
+                    jsonObject.put("class", "icon-shishang");
+                } else if("11".equals(shopType.getCode())) {//旅游
+                    jsonObject.put("class", "icon-lvyou");
+                } else if("12".equals(shopType.getCode())) {//丽人
+                    jsonObject.put("class", "icon-liren");
+                } else if("13".equals(shopType.getCode())) {//生活服务
+                    jsonObject.put("class", "icon-shenghuo");
+                } else if("14".equals(shopType.getCode())) {//运动健身
+                    jsonObject.put("class", "icon-jianshen");
+                } else if("15".equals(shopType.getCode())) {//母婴亲子
+                    jsonObject.put("class", "icon-muying");
+                } else if("16".equals(shopType.getCode())) {//宠物
+                    jsonObject.put("class", "icon-chongwu");
+                } else if("17".equals(shopType.getCode())) {//汽车服务
+                    jsonObject.put("class", "icon-qiche");
+                } else if("18".equals(shopType.getCode())) {//摄影写真
+                    jsonObject.put("class", "icon-sheying");
+                } else if("19".equals(shopType.getCode())) {//结婚
+                    jsonObject.put("class", "icon-jiehun");
+                } else if("20".equals(shopType.getCode())) {//家装
+                    jsonObject.put("class", "icon-jiazhuang");
+                } else if("21".equals(shopType.getCode())) {//医疗
+                    jsonObject.put("class", "icon-yiliao");
+                } else if("22".equals(shopType.getCode())) {//出境游
+                    jsonObject.put("class", "icon-chujing");
+                } else if("23".equals(shopType.getCode())) {//抽奖
+                    jsonObject.put("class", "icon-choujiang");
+                }
+                jsonObject.put("code", shopType.getCode());
+                jsonObject.put("name", shopType.getName());
+                jsonObject.put("parentCode", shopType.getParentCode());
 
-        List<ShopType> shopTypeList = shopTypeService.findBigType();
-        for(int i=0; i<shopTypeList.size(); i++) {
-            JSONObject jsonObject = new JSONObject();
-            ShopType shopType = shopTypeList.get(i);
-            jsonObject.put("code", shopType.getCode());
-            jsonObject.put("name", shopType.getName());
-            jsonObject.put("parentCode", shopType.getParentCode());
+                jsonArray.add(jsonObject);
+            }
+        } else {//小程序搜索页面
+            shopTypeList = shopTypeService.findBigType();
+            for(int i=0; i<shopTypeList.size(); i++) {
+                JSONObject jsonObject = new JSONObject();
+                ShopType shopType = shopTypeList.get(i);
+                jsonObject.put("code", shopType.getCode());
+                jsonObject.put("name", shopType.getName());
+                jsonObject.put("parentCode", shopType.getParentCode());
 
-            jsonArray.add(jsonObject);
+                jsonArray.add(jsonObject);
+            }
         }
 
         return ServerResponse.createBySuccess(jsonArray);

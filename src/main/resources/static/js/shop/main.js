@@ -85,7 +85,7 @@ $(function () {
         data.set("type",t2);
         console.log(data)
         // var s = $("#typep").val();
-        alert(t2);
+        //alert(t2);
         $.ajax({
             url: "/shop",
             type: 'POST',

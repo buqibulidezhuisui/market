@@ -14,4 +14,5 @@ public interface ShopTypeService {
     List<ShopType> findBigType();
     List<ShopType> findSmailTypeByBigCode(String parentCode);
     ShopType findByCode(String code);
+    List<ShopType> findShopTypeListByShop();
 }

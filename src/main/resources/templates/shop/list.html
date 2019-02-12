@@ -45,7 +45,9 @@
                         <th data-field="info"style="min-width: 90px">商家简介</th>
                         <th data-field="mobile"style="min-width: 90px">联系方式</th>
                         <th data-field="type" style="min-width: 110px">店铺分类</th>
-
+                        <th data-field="longitude">经度</th>
+                        <th data-field="latitude">纬度</th>
+                        <th data-field="operation">操作</th>
                     </tr>
                 </thead>
 
@@ -59,6 +61,8 @@
                         <td th:text="${shop.info}">zhangyuan</td>
                         <td th:text="${shop.mobile}" >zhangyuan</td>
                         <td id="typep" style="width: 110px"> <span data-th-if="${shop.typeName!=null || shop.typeName!=''}" data-th-text="${shop.typeName}"></span><span th:unless="${shop.typeName}" data-th-text="未设置分类"></span></td>
+                        <td th:text="${shop.longitude}"></td>
+                        <td th:text="${shop.latitude}"></td>
                         <td >
                             <a class="object-edit" data-toggle="modal"
                                data-target="#flipFlop" role="button" data-th-attr="id=${shop.id}">

@@ -1,7 +1,7 @@
 $(function(){
     var csrfToken = $("meta[name='_csrf']").attr("content");
     var csrfHeader = $("meta[name='_csrf_header']").attr("content");
-    alert("累心")
+    //alert("累心")
     $.ajax({
         url:"/shoptype/big",
         type:"post",

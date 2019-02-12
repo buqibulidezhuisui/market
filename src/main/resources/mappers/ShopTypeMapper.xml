@@ -13,5 +13,28 @@
       SELECT * from shop_type where code = #{code}
     </select>
 
-
+    <select id="findShopTypeListByShop" resultType="shoptype">
+      SELECT
+        sht.*
+      FROM
+        (SELECT
+          st.*
+        FROM
+          `shop`s
+        LEFT JOIN
+          shop_type st
+        ON
+          s.type = st.code
+        WHERE
+          s.del = 1)a
+      LEFT JOIN
+        shop_type sht
+      ON
+        a.parent_code = sht.code
+      GROUP BY
+        sht.code
+      ORDER BY
+        sht.code
+      LIMIT 15
+    </select>
 </mapper>

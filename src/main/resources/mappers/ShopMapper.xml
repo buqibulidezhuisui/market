@@ -4,7 +4,7 @@
 
     <select id="findLikeBussIdAndAddrAndName" resultType="shop" parameterType="shop">
         SELECT
-        s.`id` ,s.`create_at`,s.`modify_at`,s.`code`,s.`addr`,s.`name`,s.`pic`,s.`info`,s.`del`,s.`area`,s.`type`,s.`mobile`,t.name `type_name`
+        s.`id` ,s.`create_at`,s.`modify_at`,s.`code`,s.`addr`,s.`name`,s.`pic`,s.`info`,s.`del`,s.`area`,s.`type`,s.`longitude`,s.`latitude`,s.`mobile`,t.name `type_name`
         FROM
         `shop` s left JOIN shop_type t on s.type=t.code
         <where>
@@ -23,7 +23,7 @@
 
     </select>
     <select id="findAll" resultType="shop" parameterType="shop">
-        SELECT s.`id` ,s.`create_at`,s.`modify_at`,s.`code`,s.`addr`,s.`name`,s.`pic`,s.`info`,s.`del`,s.`area`,s.`type` , s.`mobile`,t.name `type_name` FROM `shop` s left JOIN shop_type t on s.type=t.code WHERE 1=1 and s.`del`=1 Order by s.`id` desc
+        SELECT s.`id` ,s.`create_at`,s.`modify_at`,s.`code`,s.`addr`,s.`name`,s.`pic`,s.`info`,s.`del`,s.`area`,s.`type`,s.`longitude`,s.`latitude`,s.`mobile`,t.name `type_name` FROM `shop` s left JOIN shop_type t on s.type=t.code WHERE 1=1 and s.`del`=1 Order by s.`id` desc
     </select>
     <update id="deleteById" parameterType="java.lang.Long">
         update shop set   `del`=0
@@ -42,7 +42,9 @@
             `modify_at`,
             `mobile`,
             `type`,
-            `area`
+            `area`,
+            `longitude`,
+            `latitude`
         )
           VALUES (
             #{code},
@@ -54,7 +56,9 @@
             #{modifyAt},
             #{mobile},
             #{type},
-            #{area}
+            #{area},
+            #{longitude},
+            #{latitude}
           )
     </insert>
     <update id="updateById" parameterType="shop">
@@ -68,8 +72,9 @@
             <if test="modifyAt!=null">`modify_at`= #{modifyAt},</if>
             <if test="mobile!=null">`mobile`= #{mobile},</if>
             <if test="area!=null">`area`=#{area},</if>
-            <if test="type!=null">`type`=#{type}</if>
-
+            <if test="type!=null">`type`=#{type},</if>
+            <if test="longitude!=null">`longitude`=#{longitude},</if>
+            <if test="latitude!=null">`latitude`=#{latitude}</if>
         </trim>
         WHERE `id`=#{id}
     </update>
@@ -77,11 +82,11 @@
         SELECT
         *
         FROM `shop`
-        where id=#{id} AND  del=1 Order by s.`id` desc
+        where id=#{id} AND  del=1 Order by `id` desc
     </select>
 
     <select id="findShopByNameAndArea" resultType="shop" parameterType="java.lang.String">
-        SELECT * FROM `shop` WHERE `del`=1 AND `area` = #{area} Order by s.`id` desc
+        SELECT * FROM `shop` WHERE `del`=1 AND `area` = #{area} Order by `id` desc
     </select>
 
     <select id="findShopByName" parameterType="java.lang.String" resultType="shop">
@@ -92,7 +97,7 @@
         WHERE
           `name` like CONCAT('%',#{name},'%')
         AND
-          `del` = 1 Order by s.`id` desc
+          `del` = 1 Order by `id` desc
     </select>
 
     <select id="findShopByNameAndTypeAndArea" parameterType="shop" resultType="shop">

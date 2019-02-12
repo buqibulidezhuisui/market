@@ -45,7 +45,16 @@
             <textarea class="form-control" id="info" name="info" th:text="*{info}"
                       placeholder="请输入商户简介">*{info}</textarea>
         </div>
-
+        <div class="form-group">
+            <label for="longitude" class="col-form-label">经度</label>
+            <input type="text" class="form-control" id="longitude" name="longitude" th:value="*{longitude}" maxlength="15"
+                   placeholder="请输入商铺的经度">
+        </div>
+        <div class="form-group">
+            <label for="latitude" class="col-form-label">纬度</label>
+            <input type="text" class="form-control" id="latitude" name="latitude" th:value="*{latitude}" maxlength="15"
+                   placeholder="请输入商铺的纬度">
+        </div>
     </form>
 
 </div>
