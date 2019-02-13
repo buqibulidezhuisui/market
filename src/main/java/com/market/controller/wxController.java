@@ -63,13 +63,17 @@ public class wxController {
 
     /**
      * 功能描述：添加微信小程序用户
+     *           获取推荐人的openid，插入user表的"referee"字段中
      * @param openid
+     * @param referee
      * @return
      * @author caoyong
      * @date 2019/1/21 10:07
+     *       2019/2/13 10:47
      */
-    @GetMapping("/openid/{openid}")
-    public ResponseEntity<Response> addUser(@PathVariable("openid") String openid) {
+    @GetMapping("/openid/{openid}/referee/{referee}")
+    public ResponseEntity<Response> addUser(@PathVariable("openid") String openid,
+                                            @PathVariable("referee") String referee) {
         //根据openid查询User是否存在
         User user = userService.findUserByOpenid(openid);
         if(user == null) {
@@ -85,6 +89,11 @@ public class wxController {
             user.setAlipayid(null);
             user.setOpenid(openid);
             user.setType(1);//type:1 微信登录
+            if("null".equals(referee)) {//打开小程序
+                user.setReferee(null);
+            } else {//打开好友转发的小程序
+                user.setReferee(referee);//推荐人openid
+            }
 
             userService.saveT(user);
         }

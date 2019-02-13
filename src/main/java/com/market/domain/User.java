@@ -41,6 +41,8 @@ public class User extends BaseEntity implements UserDetails {
 
     private Integer type; //1:微信   2:支付宝
 
+    private String referee; //推荐人
+
     private List<Authority> authorities;
 
 

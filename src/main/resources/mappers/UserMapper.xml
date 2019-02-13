@@ -39,7 +39,8 @@
             `alipayid`,
             `type`,
             `create_at`,
-            `modify_at`
+            `modify_at`,
+            `referee`
         )
         VALUES
         (
@@ -53,7 +54,8 @@
             #{alipayid},
             #{type},
             #{createAt},
-            #{modifyAt})
+            #{modifyAt},
+            #{referee})
         ON DUPLICATE KEY UPDATE
             `avatar`= #{avatar},
             `email` = #{email},
