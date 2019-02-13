@@ -1,6 +1,9 @@
 package com.market.controller;
 
+import com.alibaba.fastjson.JSONObject;
 import com.github.pagehelper.PageInfo;
+import com.google.gson.JsonObject;
+import com.market.base.response.ServerResponse;
 import com.market.domain.Coupons;
 
 import com.market.service.CouponsService;
@@ -71,4 +74,24 @@ public class CouponsController {
 
         return null;
     }
+
+
+    @GetMapping(value = "/getmoney/openid/{openid}")
+    public ServerResponse<JSONObject> getMoney(@PathVariable("openid")String openid){
+        List<Coupons> couponsByUserId = couponsService.findCouponsByUserId(openid);
+        if (couponsByUserId.size()>0){
+            Coupons coupons = couponsByUserId.get(0);
+            JSONObject jsonObject = new JSONObject();
+            jsonObject.put("money",coupons.getMoney());
+            jsonObject.put("type",coupons.getType());
+            return ServerResponse.createBySuccess(jsonObject);
+        }else {
+            JSONObject jsonObject = new JSONObject();
+            jsonObject.put("money",0);
+            jsonObject.put("type",0);
+            return ServerResponse.createBySuccess(jsonObject);
+        }
+    }
+
+
 }

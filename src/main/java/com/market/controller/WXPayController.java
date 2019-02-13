@@ -55,11 +55,16 @@ public class WXPayController {
     }
 
     @RequestMapping(value = "/marketPay/openid/{openId}/tradeNo/{tradeNo}/amountfee/{amountfee}/coupons/{coupons}/amount/{amount}")
-    public ResponseEntity<Response> marketPay(@PathVariable("openId") String openId, @PathVariable("tradeNo") String tradeNo, @PathVariable("amountfee") Double amountfee, @PathVariable("coupons") Double coupons, @PathVariable("amount") Double amount) {
+    public ServerResponse<JSONObject> marketPay(@PathVariable("openId") String openId, @PathVariable("tradeNo") String tradeNo, @PathVariable("amountfee") Double amountfee, @PathVariable("coupons") Double coupons, @PathVariable("amount") Double amount) {
+        System.out.println("应付费用1："+amount+"\n实付费用1:"+amountfee+"\n折扣金余额1:"+coupons+"\n");
+        amount=Arith.div(amount,100);
+        amountfee=Arith.div(amountfee, 100);
+        coupons = Arith.div(coupons, 100);
+        System.out.println("应付费用1："+amount+"\n实付费用1:"+amountfee+"\n折扣金余额1:"+coupons+"\n");
         System.out.println("正在保存订单信息");
         Order order = new Order();
         order.setOpenId(openId);
-        order.setPayFee(Arith.div(amountfee, 100));
+        order.setPayFee(amountfee);
         order.setTradeNo(tradeNo);
         Date date = new Date();
         SimpleDateFormat df = new SimpleDateFormat("yyyyMMddHHmmSS");
@@ -72,7 +77,7 @@ public class WXPayController {
         orderService.saveAsWX(order);
         System.out.println("订单信息保存完成");
 
-        System.out.println("折扣金信息开始更新");
+        System.out.println("用户折扣金信息开始更新");
         String s = this.addBonus(amount);
         List<Coupons> couponsByUserId = couponsService.findCouponsByUserId(openId);
         String bonus = this.getBonus();
@@ -87,7 +92,7 @@ public class WXPayController {
             couponsService.saveT(coupons1);
         } else {//至少使用过一次的用户
             Coupons coupons1 = couponsByUserId.get(0);
-            Double money = Arith.add(Arith.div(coupons, 100), Double.parseDouble(bonus));
+            Double money = Arith.add(coupons, Double.parseDouble(bonus));
             coupons1.setMoney(money);
             couponsService.updateT(coupons1);
         }
@@ -104,9 +109,12 @@ public class WXPayController {
         poolHistory.setUserId(openId);
         int i = poolHistoryService.saveT(poolHistory);
         System.out.println("奖励金数据更新完成");
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("msg","支付成功");
+        jsonObject.put("addfee",bonus);
 
 
-        return ResponseEntity.ok().body(new Response(true, "支付成功"));
+        return ServerResponse.createBySuccess(jsonObject);
     }
 
     String getRadomNum() {
@@ -148,7 +156,7 @@ public class WXPayController {
         Coupons c = couponsByUserId.get(0);
         JSONObject jsonObject = new JSONObject();
         jsonObject.put("couponfee", c.getMoney());
-        jsonObject.put("type", "2");//获取折扣金信息
+        jsonObject.put("type", "0");//获取折扣金信息
 
         return ServerResponse.createBySuccess(jsonObject);
     }
