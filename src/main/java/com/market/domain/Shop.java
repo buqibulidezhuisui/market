@@ -42,4 +42,6 @@ public class Shop extends BaseEntity {
     private Double latitude;
     //距离
     private Double distance;
+    //商户openid
+    private String openid;
 }

@@ -47,6 +47,7 @@
                         <th data-field="type" style="min-width: 110px">店铺分类</th>
                         <th data-field="longitude">经度</th>
                         <th data-field="latitude">纬度</th>
+                        <th data-field="openid">商户openid</th>
                         <th data-field="operation">操作</th>
                     </tr>
                 </thead>
@@ -63,6 +64,7 @@
                         <td id="typep" style="width: 110px"> <span data-th-if="${shop.typeName!=null || shop.typeName!=''}" data-th-text="${shop.typeName}"></span><span th:unless="${shop.typeName}" data-th-text="未设置分类"></span></td>
                         <td th:text="${shop.longitude}"></td>
                         <td th:text="${shop.latitude}"></td>
+                        <td th:text="${shop.openid}"></td>
                         <td >
                             <a class="object-edit" data-toggle="modal"
                                data-target="#flipFlop" role="button" data-th-attr="id=${shop.id}">

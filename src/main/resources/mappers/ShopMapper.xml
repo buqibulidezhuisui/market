@@ -4,7 +4,7 @@
 
     <select id="findLikeBussIdAndAddrAndName" resultType="shop" parameterType="shop">
         SELECT
-        s.`id` ,s.`create_at`,s.`modify_at`,s.`code`,s.`addr`,s.`name`,s.`pic`,s.`info`,s.`del`,s.`area`,s.`type`,s.`longitude`,s.`latitude`,s.`mobile`,t.name `type_name`
+        s.`id` ,s.`create_at`,s.`modify_at`,s.`code`,s.`addr`,s.`name`,s.`pic`,s.`info`,s.`del`,s.`area`,s.`type`,s.`longitude`,s.`latitude`,s.`openid`,s.`mobile`,t.name `type_name`
         FROM
         `shop` s left JOIN shop_type t on s.type=t.code
         <where>
@@ -23,7 +23,7 @@
 
     </select>
     <select id="findAll" resultType="shop" parameterType="shop">
-        SELECT s.`id` ,s.`create_at`,s.`modify_at`,s.`code`,s.`addr`,s.`name`,s.`pic`,s.`info`,s.`del`,s.`area`,s.`type`,s.`longitude`,s.`latitude`,s.`mobile`,t.name `type_name` FROM `shop` s left JOIN shop_type t on s.type=t.code WHERE 1=1 and s.`del`=1 Order by s.`id` desc
+        SELECT s.`id` ,s.`create_at`,s.`modify_at`,s.`code`,s.`addr`,s.`name`,s.`pic`,s.`info`,s.`del`,s.`area`,s.`type`,s.`longitude`,s.`latitude`,s.`openid`,s.`mobile`,t.name `type_name` FROM `shop` s left JOIN shop_type t on s.type=t.code WHERE 1=1 and s.`del`=1 Order by s.`id` desc
     </select>
     <update id="deleteById" parameterType="java.lang.Long">
         update shop set   `del`=0
@@ -44,7 +44,8 @@
             `type`,
             `area`,
             `longitude`,
-            `latitude`
+            `latitude`,
+            `openid`
         )
           VALUES (
             #{code},
@@ -58,7 +59,8 @@
             #{type},
             #{area},
             #{longitude},
-            #{latitude}
+            #{latitude},
+            #{openid}
           )
     </insert>
     <update id="updateById" parameterType="shop">
@@ -74,7 +76,8 @@
             <if test="area!=null">`area`=#{area},</if>
             <if test="type!=null">`type`=#{type},</if>
             <if test="longitude!=null">`longitude`=#{longitude},</if>
-            <if test="latitude!=null">`latitude`=#{latitude}</if>
+            <if test="latitude!=null">`latitude`=#{latitude},</if>
+            <if test="openid!=null">`openid`=#{openid}</if>
         </trim>
         WHERE `id`=#{id}
     </update>
