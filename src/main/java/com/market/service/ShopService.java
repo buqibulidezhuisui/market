@@ -24,4 +24,6 @@ public interface ShopService extends BaseService<Shop> {
     public List<Shop> findShopByNameAndTypeAndArea(Shop shop);
 
     public List<Shop> findShopByNameAndTypeAndAreaAndDiscount(Shop shop);
+
+    public Shop findShopByOpenid(String openid);
 }

@@ -168,4 +168,12 @@
           a.distance ASC
     </select>
 
+    <select id="findShopByOpenid" parameterType="java.lang.String" resultType="shop">
+        SELECT
+          *
+        FROM
+          `shop`
+        WHERE
+          `openid` = #{openid}
+    </select>
 </mapper>

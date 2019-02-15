@@ -299,4 +299,23 @@ public class wxController {
         return ServerResponse.createBySuccess(jsonArray);
     }
 
+    /**
+     * 功能描述：查询小程序用户是否为商家（是，则显示商家；否，则反之）
+     * @param openid
+     * @return
+     * @author caoyong
+     * @date 2019/2/14 16:53
+     */
+    @GetMapping("/sellerManage/openid/{openid}")
+    public ServerResponse<JSONObject> getAuthority(@PathVariable("openid") String openid) {
+        JSONObject jsonObject = new JSONObject();
+        Shop shop = shopService.findShopByOpenid(openid);
+        if(shop == null) {//不是商家
+            jsonObject.put("authority", 0);
+        } else {//是商家
+            jsonObject.put("authority", 1);
+        }
+
+        return ServerResponse.createBySuccess(jsonObject);
+    }
 }

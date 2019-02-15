@@ -28,4 +28,6 @@ public interface ShopMapper extends BaseMapper<Shop> {
     public List<Shop> findShopByNameAndTypeAndArea(Shop shop);
 
     public List<Shop> findShopByNameAndTypeAndAreaAndDiscount(Shop shop);
+
+    public Shop findShopByOpenid(String openid);
 }
