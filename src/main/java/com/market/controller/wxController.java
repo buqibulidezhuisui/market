@@ -2,22 +2,23 @@ package com.market.controller;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONException;
 import com.alibaba.fastjson.JSONObject;
+import com.google.gson.Gson;
+import com.google.gson.JsonArray;
 import com.market.base.response.ServerResponse;
 import com.market.config.WXPayConfig;
 import com.market.domain.Area;
 import com.market.domain.Shop;
 import com.market.domain.ShopType;
 import com.market.domain.User;
-import com.market.service.AreaService;
-import com.market.service.ShopService;
-import com.market.service.ShopTypeService;
-import com.market.service.UserService;
+import com.market.service.*;
 import com.market.util.CommonUtil;
+import com.market.domain.OrderForMini;
 import com.market.vo.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.text.SimpleDateFormat;
 import java.util.*;
 
 @RestController
@@ -34,6 +35,9 @@ public class wxController {
 
     @Autowired
     private ShopTypeService shopTypeService;
+
+    @Autowired
+    private OrderService orderService;
 
     /**
      * 功能描述：获取微信openid
@@ -105,7 +109,6 @@ public class wxController {
      * @param name
      * @param type
      * @param area
-     * @param limit
      * @return
      * @author caoyong
      * @date 2019/1/16 13:53
@@ -325,4 +328,37 @@ public class wxController {
 
         return ServerResponse.createBySuccess(jsonObject);
     }
+    //小程序获取订单信息
+    @GetMapping(value = "/getorder/openid/{openid}")
+    public ServerResponse<JSONArray> getorder(@PathVariable("openid")String openid){
+        List<OrderForMini> orderByOpenId = orderService.findOrderByOpenId(openid);
+        JSONArray objects = new JSONArray();
+        SimpleDateFormat format0 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        for (OrderForMini o :
+                orderByOpenId) {
+            String format = format0.format(o.getCreateAt());
+
+            Gson gson = new Gson();
+            String json = gson.toJson(o);
+            JSONObject jsonObject = JSONObject.parseObject(json);
+            jsonObject.put("createAt",format);
+            objects.add(jsonObject);
+
+        }
+        System.out.println(objects);
+        return ServerResponse.createBySuccess(objects);
+    }
+
+    @GetMapping(value = "/getbusiness/businessid/{businessid}")
+    public ServerResponse<JSONObject> getbusiness(@PathVariable("businessid")Long businessId){
+        Shop byId = shopService.findById(businessId);
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("info",byId.getInfo());
+        jsonObject.put("name",byId.getName());
+        jsonObject.put("addr",byId.getAddr());
+        jsonObject.put("pic",byId.getPic());
+        return ServerResponse.createBySuccess(jsonObject);
+
+    }
+
 }

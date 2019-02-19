@@ -29,6 +29,7 @@ public class BonusUtil {
         } else {
             bonus = Arith.div(bonusPool * bonusSize[6], 1600);
         }
+        bonus =Arith.round(bonus,2);
         return bonus;
     }
 

@@ -8,14 +8,12 @@
     <select id="findAllmini">
         SELECT * from `order` where 1=1 ORDER BY `modify_at` limit 0,600;
     </select>
-    <select id="findOrderByOpenId">
-        SELECT * FROM `order` WHERE `open_id`=#{openId} ORDER BY `modify_at` limit 0,600;
-    </select>
+
     <select id="findOrderByAliId">
         SELECT * FROM `order` WHERE `ali_id`=#{aliId} ORDER BY `modify_at` limit 0,600
     </select>
-    <select id="findOrderByBussnessId">
-        select * from `order` where `bussness_id`=#{bussnessId}
+    <select id="findOrderByBusinessId">
+        select * from `order` where `business_id`=#{businessId}
     </select>
     <insert id="saveT">
         insert INTO `order`(
@@ -23,16 +21,12 @@
         `ali_id`,
         `order_no`,
         `pay_fee`，
-        `status`,
-        `type`,
          `trade_no`
          ) VALUES (
         #{openId},
         #{aliId},
         #{orderNo},
         #{payFee},
-        #{status},
-        #{type},
         #{tradeNo}
         )
     </insert>
@@ -41,30 +35,61 @@
         `open_id`,
         `order_no`,
         `pay_fee`,
-        `type`,
+        `in_coupon`,
+        `de_coupon`,
+        `input_fee`,
+        `business_id`,
+        `create_at`,
          `trade_no`
          ) VALUES (
         #{openId},
         #{orderNo},
         #{payFee},
-        #{type},
+        #{inCoupon},
+        #{deCoupon},
+        #{inputFee},
+        #{businessId},
+        #{createAt},
         #{tradeNo}
         )
     </insert>
+    <select id="findOrderByOpenId"  resultType="orderForMini">
+        SELECT
+        o.`create_at`,
+        o.`input_fee`,
+        o.`in_coupon`,
+        o.`de_coupon`,
+        o.`pay_fee`,
+        s.`name` business_name,
+        s.`pic` business_pic,
+        o.`business_id`
+        FROM `order` o LEFT JOIN `shop` s ON o.`business_id`=s.`id`
+        WHERE
+        o.`open_id`=#{openid} LIMIT 0,600
+    </select>
     <insert id="saveAsAli" parameterType="order">
          insert INTO `order`(
-        `ali_id`,
+        `alipay_id`,
         `order_no`,
         `pay_fee`,
-        `type`,
+        `in_coupon`,
+        `de_coupon`,
+        `input_fee`,
+        `business_id`,
+        `create_at`,
          `trade_no`
          ) VALUES (
-        #{aliId},
+        #{alipayId},
         #{orderNo},
         #{payFee},
-        #{type},
+        #{inCoupon},
+        #{deCoupon},
+        #{inputFee},
+        #{businessId},
+        #{createAt},
         #{tradeNo}
         )
     </insert>
+
 
 </mapper>

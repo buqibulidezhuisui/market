@@ -4,14 +4,8 @@ package com.market.controller;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.market.base.response.ServerResponse;
-import com.market.domain.BonusPool;
-import com.market.domain.Coupons;
-import com.market.domain.Order;
-import com.market.domain.PoolHistory;
-import com.market.service.BonusPoolService;
-import com.market.service.CouponsService;
-import com.market.service.OrderService;
-import com.market.service.PoolHistoryService;
+import com.market.domain.*;
+import com.market.service.*;
 import com.market.util.Arith;
 import com.market.util.BonusUtil;
 import com.market.util.PayWX.OrderServlet;
@@ -19,6 +13,7 @@ import com.market.vo.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.util.Assert;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -42,6 +37,8 @@ public class WXPayController {
     CouponsService couponsService;
     @Autowired
     PoolHistoryService poolHistoryService;
+    @Autowired
+    ShopService shopService;
 
     @RequestMapping(value = "/pay/openid/{openid}/title/{title}/amountfee/{amountfee}")
     public ServerResponse<JSONObject> goPay(@PathVariable("openid") String openid,
@@ -54,29 +51,20 @@ public class WXPayController {
         return ServerResponse.createBySuccess(jsonObject);
     }
 
-    @RequestMapping(value = "/marketPay/openid/{openId}/tradeNo/{tradeNo}/amountfee/{amountfee}/coupons/{coupons}/amount/{amount}")
-    public ServerResponse<JSONObject> marketPay(@PathVariable("openId") String openId, @PathVariable("tradeNo") String tradeNo, @PathVariable("amountfee") Double amountfee, @PathVariable("coupons") Double coupons, @PathVariable("amount") Double amount) {
-        System.out.println("应付费用1："+amount+"\n实付费用1:"+amountfee+"\n折扣金余额1:"+coupons+"\n");
+    @RequestMapping(value = "/marketPay/openid/{openId}/tradeNo/{tradeNo}/amountfee/{amountfee}/coupons/{coupons}/amount/{amount}/decoupon/{decoupon}/bussnessid/{bussnessid}")
+    public ServerResponse<JSONObject> marketPay(@PathVariable("openId") String openId, @PathVariable("tradeNo") String tradeNo, @PathVariable("amountfee") Double amountfee, @PathVariable("coupons") Double coupons, @PathVariable("amount") Double amount,@PathVariable("decoupon")Double deCoupon,@PathVariable("bussnessid")Long bussnessid) {
+        System.out.println("数据预处理开始");
         amount=Arith.div(amount,100);
         amountfee=Arith.div(amountfee, 100);
         coupons = Arith.div(coupons, 100);
-        System.out.println("应付费用1："+amount+"\n实付费用1:"+amountfee+"\n折扣金余额1:"+coupons+"\n");
-        System.out.println("正在保存订单信息");
-        Order order = new Order();
-        order.setOpenId(openId);
-        order.setPayFee(amountfee);
-        order.setTradeNo(tradeNo);
+        deCoupon = Arith.div(deCoupon, 100);
         Date date = new Date();
         SimpleDateFormat df = new SimpleDateFormat("yyyyMMddHHmmSS");
         String format = df.format(date);
         String radomNum = getRadomNum();
-        System.out.println(radomNum);
         String orderNo = format + radomNum;
-        order.setOrderNo(orderNo);
-        order.setType("2");
-        orderService.saveAsWX(order);
-        System.out.println("订单信息保存完成");
-
+        System.out.println("数据预处理完成");
+        System.out.println("-*-*-*-*-*-*-*-*-*-**-*-*-*-*-*-*-");
         System.out.println("用户折扣金信息开始更新");
         String s = this.addBonus(amount);
         List<Coupons> couponsByUserId = couponsService.findCouponsByUserId(openId);
@@ -97,6 +85,7 @@ public class WXPayController {
             couponsService.updateT(coupons1);
         }
         System.out.println("用户折扣金信息保存完成");
+        System.out.println("-*-*-*-*-*-*-*-*-*-**-*-*-*-*-*-*-");
         System.out.println("奖励金数据更新开始");
 
         PoolHistory poolHistory = new PoolHistory();
@@ -109,6 +98,21 @@ public class WXPayController {
         poolHistory.setUserId(openId);
         int i = poolHistoryService.saveT(poolHistory);
         System.out.println("奖励金数据更新完成");
+        System.out.println("-*-*-*-*-*-*-*-*-*-**-*-*-*-*-*-*-");
+        System.out.println("正在保存订单信息");
+        Order order = new Order();
+        order.setOpenId(openId);
+        order.setPayFee(amountfee);
+        order.setTradeNo(tradeNo);
+        order.setInputFee(amount);
+        order.setDeCoupon(deCoupon);
+        order.setInCoupon(Double.parseDouble(bonus));
+        order.setOrderNo(orderNo);
+        order.setBusinessId(bussnessid);
+        order.setCreateAt(new Date());
+        orderService.saveAsWX(order);
+        System.out.println("订单信息保存完成");
+        System.out.println("-*-*-*-*-*-*-*-*-*-**-*-*-*-*-*-*-");
         JSONObject jsonObject = new JSONObject();
         jsonObject.put("msg","支付成功");
         jsonObject.put("addfee",bonus);
@@ -144,6 +148,7 @@ public class WXPayController {
         BonusPool bonusPool = bonusPoolService.findT(bonusPoolQuery);
         Assert.notNull(bonusPool, "奖池对象为空");
         Double money = Arith.add(bonusPool.getMoney(), addFee);
+        money = Arith.round(money,2);
 //        Double bonus = BonusUtil.getBonus(bonusPool.getMoney());
         bonusPool.setMoney(money);//更新奖池金额
         bonusPoolService.updateT(bonusPool);
@@ -160,5 +165,21 @@ public class WXPayController {
 
         return ServerResponse.createBySuccess(jsonObject);
     }
+@GetMapping(value = "/shopinfo/{id}")
+    public ServerResponse<JSONObject> getShop(@PathVariable("id")Long id){
+    Shop shop = shopService.findById(id);
+    if(shop!=null){
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("name",shop.getName());
+        jsonObject.put("pic",shop.getPic());
+        jsonObject.put("id",shop.getId());
+        jsonObject.put("code",shop.getCode());
+        jsonObject.put("info",shop.getInfo());
+        jsonObject.put("type",1);
+        return ServerResponse.createBySuccess(jsonObject);
+    }else {
+        return ServerResponse.createByErrorMessage("店铺未找到");
+    }
 
+    }
 }

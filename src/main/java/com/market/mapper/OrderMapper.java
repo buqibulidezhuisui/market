@@ -2,6 +2,7 @@ package com.market.mapper;
 
 import com.market.domain.Order;
 import com.market.mapper.common.BaseMapper;
+import com.market.domain.OrderForMini;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -14,8 +15,8 @@ import java.util.List;
  */
 @Repository
 public interface OrderMapper extends BaseMapper<Order> {
-    List<Order> findOrderByOpenId(String openid);
-    List<Order> findOrderByAliId(String aliId);
-    List<Order> findOrderByBussnessId(String bussnessid);
+    List<OrderForMini> findOrderByOpenId(String openid);
+    List<OrderForMini> findOrderByAliId(String aliId);
+    List<Order> findOrderByBusinessId(String bussnessid);
     int saveAsWX(Order order);
 }

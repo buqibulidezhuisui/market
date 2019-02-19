@@ -3,6 +3,7 @@ package com.market.service;
 import com.github.pagehelper.PageInfo;
 import com.market.domain.Order;
 import com.market.mapper.OrderMapper;
+import com.market.domain.OrderForMini;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.AutoConfigureOrder;
 import org.springframework.stereotype.Service;
@@ -52,19 +53,19 @@ public class OrderServiceImpl implements OrderService {
 
 
     @Override
-    public List<Order> findOrderByOpenId(String openid) {
-        List<Order> orderByOpenId = orderMapper.findOrderByOpenId(openid);
+    public List<OrderForMini> findOrderByOpenId(String openid) {
+        List<OrderForMini> orderByOpenId = orderMapper.findOrderByOpenId(openid);
         return orderByOpenId;
     }
 
     @Override
-    public List<Order> findOrderByAliId(String aliId) {
+    public List<OrderForMini> findOrderByAliId(String aliId) {
         return orderMapper.findOrderByAliId(aliId);
     }
 
     @Override
-    public List<Order> findOrderByBussnessId(String bussnessid) {
-        return orderMapper.findOrderByBussnessId(bussnessid);
+    public List<Order> findOrderByBusinessId(String bussnessid) {
+        return orderMapper.findOrderByBusinessId(bussnessid);
     }
 
     @Override
