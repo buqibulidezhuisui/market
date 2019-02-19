@@ -44,4 +44,6 @@ public class Shop extends BaseEntity {
     private Double distance;
     //商户openid
     private String openid;
+    //显示的数据量
+    private Long limit;
 }

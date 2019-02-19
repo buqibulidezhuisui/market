@@ -119,6 +119,7 @@
         <if test="area != 'null' and area!='' ">
             AND `area` = #{area}
         </if>
+        limit #{limit}
     </select>
 
     <select id="findShopByNameAndTypeAndAreaAndDiscount" parameterType="shop" resultType="shop">
@@ -166,6 +167,7 @@
         </if>
         ORDER BY
           a.distance ASC
+        limit #{limit}
     </select>
 
     <select id="findShopByOpenid" parameterType="java.lang.String" resultType="shop">

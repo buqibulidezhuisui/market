@@ -105,20 +105,23 @@ public class wxController {
      * @param name
      * @param type
      * @param area
+     * @param limit
      * @return
      * @author caoyong
      * @date 2019/1/16 13:53
      */
-    @GetMapping("/name/{name}/type/{type}/area/{area}")
+    @GetMapping("/name/{name}/type/{type}/area/{area}/limit/{limit}")
     public ServerResponse<JSONArray> shopList(@PathVariable("name") String name,
                                               @PathVariable("type") String type,
-                                              @PathVariable("area") String area) {
+                                              @PathVariable("area") String area,
+                                              @PathVariable("limit") Long limit) {
         JSONArray jsonArray = new JSONArray();
         List<Shop> shopList = new ArrayList<>();
         Shop s = new Shop();
         s.setName(name);
         s.setType(type);
         s.setArea(area);
+        s.setLimit(limit);
         shopList = shopService.findShopByNameAndTypeAndArea(s);
 
         for(int i=0;i<shopList.size();i++) {
@@ -257,17 +260,19 @@ public class wxController {
      * @param distance
      * @param longitude
      * @param latitude
+     * @param limit
      * @return
      * @author caoyong
      * @date 2019/2/1 10:21
      */
-    @GetMapping("/shopList/name/{name}/type/{type}/area/{area}/distance/{distance}/longitude/{longitude}/latitude/{latitude}")
+    @GetMapping("/shopList/name/{name}/type/{type}/area/{area}/distance/{distance}/longitude/{longitude}/latitude/{latitude}/limit/{limit}")
     public ServerResponse<JSONArray> getShopList(@PathVariable("name") String name,
                                                  @PathVariable("type") String type,
                                                  @PathVariable("area") String area,
                                                  @PathVariable("distance") double distance,
                                                  @PathVariable("longitude") double longitude,
-                                                 @PathVariable("latitude") double latitude) {
+                                                 @PathVariable("latitude") double latitude,
+                                                 @PathVariable("limit") Long limit) {
         JSONArray jsonArray = new JSONArray();
 
         Shop shop = new Shop();
@@ -277,10 +282,12 @@ public class wxController {
         shop.setLongitude(longitude);
         shop.setLatitude(latitude);
         shop.setArea(area);
+        shop.setLimit(limit);
         List<Shop> shopList = shopService.findShopByNameAndTypeAndAreaAndDiscount(shop);
         for(int i=0;i<shopList.size();i++) {
             Shop s = shopList.get(i);
             JSONObject jsonObject = new JSONObject();
+            jsonObject.put("id", s.getId());
             jsonObject.put("code", s.getCode());
             jsonObject.put("addr", s.getAddr());
             jsonObject.put("name", s.getName());
