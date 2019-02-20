@@ -3,15 +3,15 @@
         <form class="form-inline">
             <div class="form-group">
                 <label>商户名称</label>
-                <input type="text" class="form-control" id="searchShopName" >
+                <input type="text" class="form-control" id="searchShopName">
             </div>
             <div class="form-group">
                 <label>商户id</label>
-                <input type="text" class="form-control" id="searchBussId" >
+                <input type="text" class="form-control" id="searchBussId">
             </div>
             <div class="form-group">
                 <label>商户地址</label>
-                <input type="text" class="form-control" id="searchAddr" >
+                <input type="text" class="form-control" id="searchAddr">
             </div>
             <button class="btn btn-secondary" type="button" id="searchNameBtn">
                 <i class="fa fa-search" aria-hidden="true"></i>
@@ -22,66 +22,95 @@
             </a>
         </form>
     </div>
-<style>
-    .tupian{ border:1px solid #fff; width:107px; height:60px}
-    .tupian img{width:107px; height:60px;word-break:break-all; word-wrap:break-word;}
+    <style>
+        .tupian {
+            border: 1px solid #fff;
+            width: 107px;
+            height: 60px
+        }
 
-    .class td,.class th /*设置表格文字左右和上下居中对齐*/
-    {
-        vertical-align: middle;
-        text-align: center;
-    }
-</style>
+        .tupian img {
+            width: 107px;
+            height: 60px;
+            word-break: break-all;
+            word-wrap: break-word;
+        }
+
+        .class td, .class th /*设置表格文字左右和上下居中对齐*/
+        {
+            vertical-align: middle;
+            text-align: center;
+        }
+
+        .my-gallery figcaption{
+            display: none;
+        }
+        .my-gallery img{
+            width: 100px;
+            height: 60px;
+        }
+    </style>
     <div id="mainContainer" class="container" style="overflow-x: auto;">
-        <div id="mainContainerRepleace" class="row class" >
+        <div id="mainContainerRepleace" class="row class">
             <table class="table table-striped">
                 <thead>
-                    <tr>
-                        <th data-field="id"style="min-width: 90px">ID</th>
-                        <th data-field="name"style="min-width: 90px">商户名称</th>
-                        <th data-field="code"style="min-width: 90px">商户id</th>
-                        <th data-field="addr"style="min-width: 90px">商户地址</th>
-                        <th data-field="pic"style="min-width: 90px;max-width: 214px;">头像</th>
-                        <th data-field="info"style="min-width: 90px">商家简介</th>
-                        <th data-field="mobile"style="min-width: 90px">联系方式</th>
-                        <th data-field="type" style="min-width: 110px">店铺分类</th>
-                        <th data-field="longitude">经度</th>
-                        <th data-field="latitude">纬度</th>
-                        <th data-field="openid">商户openid</th>
-                        <th data-field="operation">操作</th>
-                    </tr>
+                <tr>
+                    <th data-field="id" style="min-width: 90px">ID</th>
+                    <th data-field="name" style="min-width: 90px">商户名称</th>
+                    <th data-field="code" style="min-width: 90px">商户id</th>
+                    <th data-field="addr" style="min-width: 90px">商户地址</th>
+                    <th data-field="pic" style="min-width: 90px;max-width: 214px;">头像</th>
+                    <th data-field="info" style="min-width: 90px">商家简介</th>
+                    <th data-field="mobile" style="min-width: 90px">联系方式</th>
+                    <th data-field="type" style="min-width: 110px">店铺分类</th>
+                    <th data-field="longitude">经度</th>
+                    <th data-field="latitude">纬度</th>
+                    <th data-field="openid">商户openid</th>
+                    <th data-field="operation">操作</th>
+                </tr>
                 </thead>
 
                 <tbody>
-                    <tr th:each="shop : ${shopModel.shopList}">
-                        <td style="vertical-align: middle;text-align: center; " th:text="${shop.id}">1</td>
-                        <td th:text="${shop.name}" >1</td>
-                        <td th:text="${shop.code}" >1</td>
-                        <td th:text="${shop.addr}" >zhangyuan</td>
-                        <td ><div class="tupian"><img th:src=${shop.pic} th:alt="头像" /></div></td>
-                        <td th:text="${shop.info}">zhangyuan</td>
-                        <td th:text="${shop.mobile}" >zhangyuan</td>
-                        <td id="typep" style="width: 110px"> <span data-th-if="${shop.typeName!=null || shop.typeName!=''}" data-th-text="${shop.typeName}"></span><span th:unless="${shop.typeName}" data-th-text="未设置分类"></span></td>
-                        <td th:text="${shop.longitude}"></td>
-                        <td th:text="${shop.latitude}"></td>
-                        <td th:text="${shop.openid}"></td>
-                        <td >
-                            <a class="object-edit" data-toggle="modal"
-                               data-target="#flipFlop" role="button" data-th-attr="id=${shop.id}">
-                                <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
-                            </a>
-                            <a class="object-delete" role="button" data-th-attr="id=${shop.id}">
-                                <i class="fa fa-times" aria-hidden="true"></i>
-                            </a>
-                        </td>
-                    </tr>
+                <tr th:each="shop : ${shopModel.shopList}">
+                    <td style="vertical-align: middle;text-align: center; " th:text="${shop.id}">1</td>
+                    <td th:text="${shop.name}">1</td>
+                    <td th:text="${shop.code}">1</td>
+                    <td th:text="${shop.addr}">zhangyuan</td>
+                    <td>
+                        <div class="my-gallery" itemscope itemtype="http://schema.org/ImageGallery">
+                            <figure itemprop="associatedMedia" itemscope itemtype="http://schema.org/ImageObject">
+                                <a th:href="${shop.pic}" itemprop="contentUrl" data-size="964x1024">
+                                    <img th:src="${shop.pic}" itemprop="thumbnail"/>
+                                </a>
+                                <figcaption itemprop="caption description">商家图片</figcaption>
+                            </figure>
+                        </div>
+                    </td>
+                    <td th:text="${shop.info}">zhangyuan</td>
+                    <td th:text="${shop.mobile}">zhangyuan</td>
+                    <td id="typep" style="width: 110px"><span data-th-if="${shop.typeName!=null || shop.typeName!=''}"
+                                                              data-th-text="${shop.typeName}"></span><span
+                            th:unless="${shop.typeName}" data-th-text="未设置分类"></span></td>
+                    <td th:text="${shop.longitude}"></td>
+                    <td th:text="${shop.latitude}"></td>
+                    <td th:text="${shop.openid}"></td>
+                    <td>
+                        <a class="object-edit" data-toggle="modal"
+                           data-target="#flipFlop" role="button" data-th-attr="id=${shop.id}">
+                            <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
+                        </a>
+                        <a class="object-delete" role="button" data-th-attr="id=${shop.id}">
+                            <i class="fa fa-times" aria-hidden="true"></i>
+                        </a>
+                    </td>
+                </tr>
                 </tbody>
             </table>
 
             <div th:replace="~{fragments/page :: page}">...</div>
         </div>
     </div>
-
+    <div th:insert="~{main/div-photoswipe :: div-photoswipe}">...</div>
     <!-- The modal -->
     <div class="modal fade" id="flipFlop" tabindex="-1" role="dialog"
          aria-labelledby="modalLabel" aria-hidden="true">
