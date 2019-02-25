@@ -39,6 +39,8 @@ public class WXPayController {
     PoolHistoryService poolHistoryService;
     @Autowired
     ShopService shopService;
+    @Autowired
+    UserService userService;
 
     @RequestMapping(value = "/pay/openid/{openid}/title/{title}/amountfee/{amountfee}")
     public ServerResponse<JSONObject> goPay(@PathVariable("openid") String openid,
@@ -68,10 +70,11 @@ public class WXPayController {
         System.out.println("用户折扣金信息开始更新");
         String s = this.addBonus(amount);
         List<Coupons> couponsByUserId = couponsService.findCouponsByUserId(openId);
-        String bonus = this.getBonus();
+        String bonusStr = this.getBonus();
+        double bouns = Double.parseDouble(bonusStr);
         if (couponsByUserId.size() < 1) {//新用户
             Coupons coupons1 = new Coupons();
-            coupons1.setMoney(Double.parseDouble(bonus));
+            coupons1.setMoney(bouns);
             coupons1.setCouponsNo(UUID.randomUUID().toString().replace("-", "").toUpperCase());
             coupons1.setUserId(openId);
             coupons1.setCreateAt(new Date());
@@ -80,10 +83,11 @@ public class WXPayController {
             couponsService.saveT(coupons1);
         } else {//至少使用过一次的用户
             Coupons coupons1 = couponsByUserId.get(0);
-            Double money = Arith.add(coupons, Double.parseDouble(bonus));
+            Double money = Arith.round(Arith.add(coupons, bouns),2);
             coupons1.setMoney(money);
             couponsService.updateT(coupons1);
         }
+
         System.out.println("用户折扣金信息保存完成");
         System.out.println("-*-*-*-*-*-*-*-*-*-**-*-*-*-*-*-*-");
         System.out.println("奖励金数据更新开始");
@@ -93,7 +97,7 @@ public class WXPayController {
         poolHistory.setCreateAt(poolHistoryUpDate);
         poolHistory.setModifyAt(poolHistoryUpDate);
         poolHistory.setOrderNo(orderNo);
-        poolHistory.setPoolDown(Double.parseDouble(bonus));
+        poolHistory.setPoolDown(bouns);
         poolHistory.setPoolUp(Double.parseDouble(s));
         poolHistory.setUserId(openId);
         int i = poolHistoryService.saveT(poolHistory);
@@ -106,16 +110,35 @@ public class WXPayController {
         order.setTradeNo(tradeNo);
         order.setInputFee(amount);
         order.setDeCoupon(deCoupon);
-        order.setInCoupon(Double.parseDouble(bonus));
+        order.setInCoupon(bouns);
         order.setOrderNo(orderNo);
         order.setBusinessId(bussnessid);
         order.setCreateAt(new Date());
         orderService.saveAsWX(order);
         System.out.println("订单信息保存完成");
         System.out.println("-*-*-*-*-*-*-*-*-*-**-*-*-*-*-*-*-");
+
+        User userByOpenid = userService.findUserByOpenid(openId);
+        if(userByOpenid.getReferee()!=null&&userByOpenid.getReferee()!=""){
+            System.out.println("推荐人赏金保存开始：");
+            Order orderByOrderNo = orderService.findOrderByOrderNo(orderNo);
+            BounsReferee bounsReferee = new BounsReferee();
+            bounsReferee.setOpenId(userByOpenid.getReferee());
+            bounsReferee.setBonus(Arith.round(Arith.mul(bouns,0.2),2));
+            bounsReferee.setOrderId(orderByOrderNo.getId());
+            bounsReferee.setCreateAt(date);
+            Coupons coupons1 = couponsService.findCouponsByUserId(userByOpenid.getReferee()).get(0);
+            Double money = coupons1.getMoney();
+            coupons1.setMoney(Arith.round(Arith.add(money,bounsReferee.getBonus()),2));
+            couponsService.saveT(coupons1);
+            System.out.println("推荐人赏金保存完成！");
+
+        }
+
+
         JSONObject jsonObject = new JSONObject();
         jsonObject.put("msg","支付成功");
-        jsonObject.put("addfee",bonus);
+        jsonObject.put("addfee", bouns);
 
 
         return ServerResponse.createBySuccess(jsonObject);

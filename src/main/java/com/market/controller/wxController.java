@@ -4,18 +4,17 @@ import com.alibaba.fastjson.JSONException;
 import com.alibaba.fastjson.JSONObject;
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
 import com.market.base.response.ServerResponse;
 import com.market.config.WXPayConfig;
-import com.market.domain.Area;
-import com.market.domain.Shop;
-import com.market.domain.ShopType;
-import com.market.domain.User;
+import com.market.domain.*;
 import com.market.service.*;
+import com.market.util.Arith;
 import com.market.util.CommonUtil;
-import com.market.domain.OrderForMini;
 import com.market.vo.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.parameters.P;
 import org.springframework.web.bind.annotation.*;
 
 import java.text.SimpleDateFormat;
@@ -38,6 +37,11 @@ public class wxController {
 
     @Autowired
     private OrderService orderService;
+
+    @Autowired
+    private BonusRefereeService bonusRefereeService;
+    @Autowired
+    private CouponsService couponsService;
 
     /**
      * 功能描述：获取微信openid
@@ -360,5 +364,65 @@ public class wxController {
         return ServerResponse.createBySuccess(jsonObject);
 
     }
+    @GetMapping(value = "/getbounsreferee/openid/{openid}")
+    public ServerResponse<JSONArray> getBounsReferee(@PathVariable("openid")String openid){
+        List<BounsReferee> bounRefereeByOpenId = bonusRefereeService.findBounRefereeByOpenId(openid);
+        JSONArray objects = new JSONArray();
+        for (BounsReferee b :
+                bounRefereeByOpenId) {
+            String nickname = "***"+ b.getNickname().substring(b.getNickname().length()-6);
+            Date createAt = b.getCreateAt();
+            Double bouns = b.getBonus();
+            SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:SS");
+            String date = df.format(createAt);
+            JSONObject jsonObject = new JSONObject();
+            jsonObject.put("nickname",nickname);
+            jsonObject.put("createAt",date);
+            jsonObject.put("bonus",bouns);
+            objects.add(jsonObject);
+        }
+        return ServerResponse.createBySuccess(objects);
+    }
+    @GetMapping(value = "/getbounsrefereesum/openid/{openid}")
+    public ServerResponse<JSONObject> getBounsRefereeSum(@PathVariable("openid")String openid){
+        List<BounsReferee> bounRefereeByOpenId = bonusRefereeService.findBounRefereeByOpenId(openid);
+        double sumBouns = 0d;
+        for (BounsReferee b :
+                bounRefereeByOpenId) {
+            sumBouns= Arith.round(Arith.add(sumBouns,b.getBonus()),2);
+        }
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("bonussum",sumBouns);
 
+        return ServerResponse.createBySuccess(jsonObject);
+    }
+    @GetMapping(value = "/getbonusinfo/openid/{openid}")
+    public ServerResponse<JSONObject> getbonusinfo(@PathVariable("openid")String openid){
+//        已使用红包总额
+//        个人消消费红包
+        SumBonus orderSumCouponByOpenId = orderService.findOrderSumCouponByOpenId(openid);
+
+//        赏金总额
+        List<BounsReferee> bounRefereeByOpenId = bonusRefereeService.findBounRefereeByOpenId(openid);
+        double sumBouns = 0d;
+        for (BounsReferee b :
+                bounRefereeByOpenId) {
+            sumBouns= Arith.round(Arith.add(sumBouns,b.getBonus()),2);
+        }
+//        剩余红包
+        Double money;
+        List<Coupons> couponsByUserId = couponsService.findCouponsByUserId(openid);
+        if(couponsByUserId.size()<1){
+            money=Arith.round(0,2);
+        }else {
+            Coupons coupons = couponsByUserId.get(0);
+            money = coupons.getMoney();
+        }
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("ysyr",orderSumCouponByOpenId.getSumDeCoupon());
+        jsonObject.put("ppr",orderSumCouponByOpenId.getSumInCoupon());
+        jsonObject.put("sjr",sumBouns);
+        jsonObject.put("money",money);
+        return ServerResponse.createBySuccess(jsonObject);
+    }
 }

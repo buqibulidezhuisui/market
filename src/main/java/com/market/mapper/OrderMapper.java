@@ -1,6 +1,7 @@
 package com.market.mapper;
 
 import com.market.domain.Order;
+import com.market.domain.SumBonus;
 import com.market.mapper.common.BaseMapper;
 import com.market.domain.OrderForMini;
 import org.springframework.stereotype.Repository;
@@ -9,7 +10,7 @@ import java.util.List;
 
 /**
  * @InterfaceName: OrderMapper
- * @Description: TODO
+ * @Description:
  * @Author: 24878
  * @Date: 2019/2/1 16:30
  */
@@ -19,4 +20,6 @@ public interface OrderMapper extends BaseMapper<Order> {
     List<OrderForMini> findOrderByAliId(String aliId);
     List<Order> findOrderByBusinessId(String bussnessid);
     int saveAsWX(Order order);
+    Order findOrderByOrderNo(String orderNo);
+    SumBonus findOrderSumCouponByOpenId(String openid);
 }

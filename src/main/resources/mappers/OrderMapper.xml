@@ -90,6 +90,12 @@
         #{tradeNo}
         )
     </insert>
+    <select id="findOrderByOrderNo" resultType="order">
+        SELECT * FROM  `order` where `oeder`.`order_no`=#{orderNo}
+    </select>
+    <select id="findOrderSumCouponByOpenId" resultType="sumBonus">
+        select sum(o.`in_coupon`) `sum_in_coupon`,sum( o.`de_coupon`) `sum_de_coupon` from `order` o where o.`open_id`=#{openid}
+    </select>
 
 
 </mapper>

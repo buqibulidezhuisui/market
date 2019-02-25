@@ -2,6 +2,7 @@ package com.market.service;
 
 import com.github.pagehelper.PageInfo;
 import com.market.domain.Order;
+import com.market.domain.SumBonus;
 import com.market.mapper.OrderMapper;
 import com.market.domain.OrderForMini;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -72,5 +73,17 @@ public class OrderServiceImpl implements OrderService {
     public int saveAsWX(Order order) {
         int i = orderMapper.saveAsWX(order);
         return i;
+    }
+
+    @Override
+    public Order findOrderByOrderNo(String orderNo){
+        Order order = orderMapper.findOrderByOrderNo(orderNo);
+        return order;
+    }
+
+    @Override
+    public SumBonus findOrderSumCouponByOpenId(String openid) {
+        SumBonus orderSumCouponByOpenId = orderMapper.findOrderSumCouponByOpenId(openid);
+        return orderSumCouponByOpenId;
     }
 }
